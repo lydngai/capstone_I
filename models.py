@@ -1,8 +1,15 @@
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime 
+
 bcrypt = Bcrypt()
 db = SQLAlchemy()
+
+def connect_db(app):
+    """Connect this database to provided Flask app. Called in app.py
+    """
+    db.app = app
+    db.init_app(app)
 
 
 class User(db.Model):
@@ -26,7 +33,8 @@ class User(db.Model):
     
     allergies = db.Column(db.Text)
 
-    recipes = db.relationship("Recipes", backref="recipes", secondary= "mealplans", cascade="all, delete")
+    recipes = db.relationship("Recipe", backref="recipes", secondary= "mealplans")
+    mealpans = db.relationship("Mealplan",backref="user", cascade="all,delete")
 
     def __repr__(self):
         return f"<User #{self.id}: {self.email}, {self.name}>"  
@@ -88,21 +96,21 @@ class Recipe(db.Model):
     servings = db.Column(db.Integer, nullable=False)
     ready_in_min = db.Column(db.Integer)
     
-    ingredients = db.relationship('Ingredient', secondary ='recipe_ingredients', backref='recipes')
+    ingredients = db.relationship('Ingredient', secondary ='recipe_ingredients', backref='recipes',  cascade="all, delete")
     
 
-class Recipe_Ingredient(db.Model):
-    """Recipe ingredient set with quantities"""
+class Mealplan(db.Model):
+    """Planned recipes for user"""
+    __tablename__ = 'mealplans'
+    id = db.Column(
+        db.Integer, primary_key=True
+    )
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    planned_day=db.Column(db.Date, default=datetime.now().strftime("%Y-%m-%d"))
     
-    __tablename__ = 'recipe_ingredients'
+    meal = db.Column(db.Integer, nullable=False)
+    recipe_id=db.Column(db.Integer, db.ForeignKey("recipes.id"))
 
-    recipe_id = db.Column(db.Integer,  db.ForeignKey("recipes.id"), primary_key=True )
-
-    ingredient_id=db.Column(db.Integer, db.ForeignKey("ingredients.id"), primary_key=True)
-
-    unit = db.Column(db.Text, nullable = False)
-    quantity = db.Column(db.Integer, nullable=False)
-    
 class Ingredient(db.Model):
     """Ingredients"""
     __tablename__ = 'ingredients'
@@ -112,16 +120,23 @@ class Ingredient(db.Model):
     name = db.Column(
         db.Text,   nullable=False, unique=True,
     )
+    ## create method to parse and add missing ingredients?
 
-class Mealplan(db.Model):
-    """Planned recipes for user"""
-    __tablename__ = 'mealplans'
+class Recipe_ingredient(db.Model):
+    """Recipe ingredient set with quantities"""
+    
+    __tablename__ = 'recipe_ingredients'
     id = db.Column(
         db.Integer, primary_key=True
     )
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), ondelete = "cascade")
-    planned_day=db.Column(db.Date)
-    meal = db.Column(db.Integer, nullable=False)
-    recipe_id=db.Column(db.Integer, db.ForeignKey("recipes.id"), ondelete="cascade")
 
+    recipe_id = db.Column(db.Integer,  db.ForeignKey("recipes.id"))
+
+    ingredient_id=db.Column(db.Integer, db.ForeignKey("ingredients.id"))
+
+    unit = db.Column(db.Text, nullable = False)
+    quantity = db.Column(db.Integer, nullable=False)
+
+    ## create method to parse and add recipe_ingredient?
     
+

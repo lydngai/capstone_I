@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block content %}
+<div class="home-hero">
+  <h1>Advanced Recipe Search</h1>
+  <div class="container">
+    <form action="" id="recipe-search">
+      <div>
+        <label for="search">Search:</label>
+        <input id="author" type="text" placeholder="Search" />
+      </div>
+
+      <div>
+        <label for="includeIngredients">Must include:</label>
+        <input id="includeIngredients" type="text" placeholder="..." />
+      </div>
+      <div>
+        <label for="excludeIngredients">Must exclude:</label>
+        <input id="excludeIngredients" type="text" placeholder="..." />
+      </div>
+      <div>
+        <div>Allergens/Intolerances (optional):</div>
+        {% for item in intolerances%}
+        <label
+          ><input type="checkbox" value="{{item}}" name="intolerances" />
+          {{item}}</label
+        >
+        {% endfor %}
+      </div>
+      <div>
+        <label for="diet">Diet: (optional)</label>
+        <select name="diet" id="diet">
+          {% for diet in diets %}
+          <option value="{{diet}}">{{diet}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button id="adv-src-btn">Search</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
