@@ -7,6 +7,8 @@ import requests
 
 # from forms import UserAddForm, UserEditForm, LoginForm, MessageForm
 from models import db, connect_db, User, Recipe, Recipe_ingredient, Ingredient, Mealplan
+
+import requests
 from config import apikey
 
 
@@ -23,6 +25,7 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
+API_BASE_URL=f"https://api.spoonacular.com/"
 # setup is going to be lengthy...   
 
 ###################
@@ -54,3 +57,27 @@ def show_advanced_search():
     return render_template("recipe-search.html",intolerances=allergens, diets=diets)
 
 
+@app.route('/search')
+def search_query():
+    search = request.args.get('search-bar-recipe')
+    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&number=5&apiKey={apikey}")
+
+    response = res.json()
+
+    # import pdb
+    # pdb.set_trace()
+    return render_template("recipe-results.html",resp=response)
+
+
+    # intolerances, include ingredients, exclude ingredients,
+    # diet
+    # https://api.spoonacular.com/recipes/complexSearch?query=<string>&cuisine=<string>&excludeCuisine=<string>&diet=<string>&intolerances=<string>&equipment=<string>&includeIngredients=<string>&excludeIngredients=<string>&type=<string>&instructionsRequired=<boolean>&fillIngredients=<boolean>&addRecipeInformation=<boolean>&addRecipeNutrition=<boolean>&author=<string>&tags=<string>&recipeBoxId=<number>&titleMatch=<string>&maxReadyTime=<number>&ignorePantry=true&sort=<string>&sortDirection=<string>&minCarbs=<number>&maxCarbs=<number>&&offset=<number>&number=<number>
+
+    #if __ not none, append to search query
+
+@app.route('/recipe/<int:id>')
+def show_recipe_info(id):
+    res = requests.get(f"{API_BASE_URL}/recipes/{id}/information?apiKey={apikey}")
+    response =res.json()
+
+    return render_template("recipe-info.html",recipe=response)

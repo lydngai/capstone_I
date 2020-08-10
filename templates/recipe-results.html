@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Recipe search results:</h1>
+<div class="container">
+  <div class="row">
+    {% for item in resp.results %}
+    <!-- cards -->
+    <div class="col-sm-6">
+      <div class="card">
+        <img class="card-img-top" src="{{item.image}}" alt="{{item.title}}" />
+        <div class="card-body">
+          <h5 class="card-title">{{item.title}}</h5>
+
+          <a href="/recipe/{{item.id}}" class="btn btn-primary"
+            >Get more information</a
+          >
+          <a href="#" class="btn btn-secondary">Add to meal plan</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- add pagination buttons here -->
+<!-- <a href=""><i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
+<a href=""><i class="fa fa-chevron-left" aria-hidden="true"></i> </a> -->
+
+{% endblock %}

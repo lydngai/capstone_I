@@ -23,7 +23,6 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
-    <script type="text/javascript" src="static/config.js"></script>
     <script type="text/javascript" src="static/script.js"></script>
 
     <link
@@ -34,17 +33,18 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-light bg-dark justify-content-between">
+    <nav class="navbar navbar-light bg-secondary justify-content-between">
       <a class="navbar-brand text-light">Meal Planner</a>
-      <form class="form-inline">
+      <form class="form-inline" id="search-bar-form" action="/search">
         <input
           class="form-control mr-sm-2"
           type="search"
           placeholder="Search for recipes"
           aria-label="Search"
+          name="search-bar-recipe"
         />
 
-        <button class="btn btn-default" id="search-bar-btn">
+        <button class="btn btn-default" id="search-bar-btn" type="submit">
           <span class="fa fa-search text-light"></span>
         </button>
       </form>
