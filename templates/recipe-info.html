@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <h1>{{recipe.title}}</h1>
 <img src="{{recipe.image}}" alt="{{recipe.title}}" />
-<a href="{{recipe.sourceUrl}}">See the original at {{recipe.sourceName}}'s</a>
+<a href="{{recipe.sourceUrl}}">See the original at {{recipe.sourceName}}</a>
 <div>servings: {{recipe.servings}}</div>
 <div>Ready in: {{recipe.readyInMinutes}} minutes</div>
 <div>

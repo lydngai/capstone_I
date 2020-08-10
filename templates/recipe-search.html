@@ -2,29 +2,45 @@
 <div class="home-hero">
   <h1>Advanced Recipe Search</h1>
   <div class="container">
-    <form action="" id="recipe-search">
+    <form action="/adv_search_results" id="recipe-search">
       <div>
-        <label for="search">Search:</label>
-        <input id="adv-search" type="text" placeholder="Search" />
+        <label for="advQuery">Search:</label>
+        <input
+          id="advQuery"
+          name="advQuery"
+          type="text"
+          placeholder="Search"
+          required
+        />
       </div>
 
       <div>
         <label for="includeIngredients">Must include:</label>
-        <input id="includeIngredients" type="text" placeholder="..." />
+        <input
+          id="includeIngredients"
+          name="includeIngredients"
+          type="text"
+          placeholder="..."
+        />
       </div>
       <div>
         <label for="excludeIngredients">Must exclude:</label>
-        <input id="excludeIngredients" type="text" placeholder="..." />
+        <input
+          id="excludeIngredients"
+          name="excludeIngredients"
+          type="text"
+          placeholder="..."
+        />
       </div>
       <div>
         <label for="cookTime">Max Cooking Time (minutes):</label>
-        <input id="cooktime" type="number" placeholder="..." />
+        <input id="cooktime" name="cooktime" type="number" placeholder="..." />
       </div>
       <div>
         <div>Allergens/Intolerances (optional):</div>
         {% for item in intolerances%}
         <label
-          ><input type="checkbox" value="{{item}}" name="intolerances" />
+          ><input type="checkbox" value="{{item}}" name="{{item}}" />
           {{item}}</label
         >
         {% endfor %}

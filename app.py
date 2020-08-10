@@ -26,6 +26,7 @@ toolbar = DebugToolbarExtension(app)
 connect_db(app)
 
 API_BASE_URL=f"https://api.spoonacular.com/"
+allergens=["Dairy","Egg","Gluten","Grain","Peanut","Seafood","Sesame","Shellfish","Soy","Sulfite","Tree Nut","Wheat"]
 # setup is going to be lengthy...   
 
 ###################
@@ -52,9 +53,48 @@ def show_landing_page():
 
 @app.route('/advanced_search')
 def show_advanced_search():
-    allergens=["Dairy","Egg","Gluten","Grain","Peanut","Seafood","Sesame","Shellfish","Soy","Sulfite","Tree Nut","Wheat"]
-    diets = ["glutenfree","ketogenic",'vegetarian','lacto-vegetarian','ovo-vegetarian','vegan','pescetarian','paleo','whole30']
+
+    diets = ["","glutenfree","ketogenic",'vegetarian','lacto-vegetarian','ovo-vegetarian','vegan','pescetarian','paleo','whole30']
+
     return render_template("recipe-search.html",intolerances=allergens, diets=diets)
+
+@app.route('/adv_search_results')
+def adv_search_query():
+    intolerances=[]
+
+    query=request.args.get('advQuery')
+    inc_ing=request.args.get('includeIngredients')
+    exc_ing=request.args.get('excludeIngredients')
+    cooktime=request.args.get('cooktime')
+    diet=request.args.get('diet')
+    
+    # intolerances=request.args.get('intolerances')
+    for item in allergens:
+        if request.args.get(f"{item}"):
+            intolerances.append(item)
+
+    payload={'query': query}
+    
+    
+    if inc_ing:
+        payload["includeIngredients"]=inc_ing
+    if exc_ing:
+        payload['excludeIngredients']=exc_ing
+    if cooktime:
+        payload['maxReadyTime']=cooktime
+    if intolerances:
+        payload['intolerances']=intolerances
+    if diet:
+        payload['diet']=diet
+
+    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={query}&number=5&apiKey={apikey}",params=payload)
+
+    response = res.json()
+    
+    # import pdb
+    # pdb.set_trace()
+
+    return render_template("recipe-results.html",resp=response)    
 
 
 @app.route('/search')
@@ -64,8 +104,6 @@ def search_query():
 
     response = res.json()
 
-    # import pdb
-    # pdb.set_trace()
     return render_template("recipe-results.html",resp=response)
 
 
