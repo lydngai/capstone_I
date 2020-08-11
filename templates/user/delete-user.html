@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Delete Account</h1>
+<div class="">
+  Deleting an account is permanent! If you want to change details, you can
+  <a href="/user/edit">edit your profile </a>instead.
+  <br />
+  <br />
+
+  To verify that you want to delete your account, please re-enter your log in
+  information:
+</div>
+<br />
+<div class="container">
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <!--  -->
+    {% for field in form if field.widget.input_type != 'hidden' %}
+    <!--  -->
+    {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+    <!--  -->
+    {{field.label}} {{field(class="form-control")}}
+    <!--  -->
+    {% endfor %}
+
+    <button class="btn btn-danger btn-lg btn-block mt-2">Delete Account</button>
+  </form>
+</div>
+{% endblock %}

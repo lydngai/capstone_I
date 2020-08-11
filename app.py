@@ -156,7 +156,7 @@ def signup():
             flash("Email already registered",'danger')
             return render_template('signup.html', form=form)
     
-    return render_template('signup.html', form=form)
+    return render_template('user/signup.html', form=form)
 
 @app.route('/user/logout')
 def log_out_user():
@@ -178,10 +178,21 @@ def log_in_user():
         else:
             flash("Invalid credentials",'danger')
     
-    return render_template("login.html", form=form)
+    return render_template("user/login.html", form=form)
+
+@app.route('/user/profile')
+def show_user():
+    if not g.user:
+        flash("Unauthorized access",'danger')
+        return redirect('/')
+    
+    user=g.user
+
+    return render_template("user/profile.html", user=user)
+
 
 @app.route('/user/edit', methods=['GET','POST'])
-def user_profile():
+def edit_user_profile():
     if not g.user:
         flash("Unauthorized access",'danger')
         return redirect('/')
@@ -196,7 +207,29 @@ def user_profile():
         
         db.session.commit()
         flash("Profile updated successfully!",'success')
-    return render_template('edit-user.html',form=form)
+    return render_template('user/edit-user.html',form=form)
+
+@app.route('/user/delete', methods=['GET','POST'])
+def delete_user_profile():
+    if not g.user:
+        flash("Unauthorized access",'danger')
+        return redirect('/')
+    
+    user=g.user
+    form=UserSignInForm()
+
+    if form.validate_on_submit():
+        user = User.authenticate(email=form.email.data, password=form.password.data)
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            log_out()
+            flash(f"Account deleted", 'success')
+
+        else:
+            flash("Invalid credentials",'danger')
+
+    return render_template('user/delete-user.html',form=form)
 
 @app.errorhandler(404)
 def page_not_found(e):
