@@ -33,8 +33,33 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-light bg-secondary justify-content-between">
-      <a class="navbar-brand text-light">Meal Planner</a>
+    <nav
+      class="navbar navbar-expand-md navbar-light bg-secondary justify-content-between"
+    >
+      <a class="navbar-brand text-light" href="/">Meal Planner</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/advanced_search">Advanced Search</a>
+          </li>
+          {% if not g.user %}
+          <li class="nav-item">
+            <a class="nav-link" href="/user/signup">Sign Up <Inp></Inp></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/login">Log In<Inp></Inp></a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/user/logout">Log Out</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/edit">Edit Profile <Inp></Inp></a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+
       <form class="form-inline" id="search-bar-form" action="/search">
         <input
           class="form-control mr-sm-2"
