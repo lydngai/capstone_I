@@ -29,7 +29,7 @@
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
     />
-    <!-- <link rel="stylesheet" href="static/styles.css" /> -->
+    <link rel="stylesheet" href="static/styles.css" />
   </head>
 
   <body>
@@ -51,7 +51,7 @@
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="/user/logout">Log Out</a>
+            <a class="nav-link log-out-btn" href="/user/logout">Log Out</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/user/profile">Profile <Inp></Inp></a>
@@ -80,5 +80,18 @@
       <div class="alert alert-{{ category }}">{{ message }}</div>
       {% endfor %} {% block content %} {% endblock %}
     </div>
+    <footer>
+      <div class="footer-copyright text-center py-3 fixed-bottom">
+        Powered by
+        <a href="https://spoonacular.com/food-api">
+          <img
+            class="footer-logo"
+            src="/static/images/spoonacular.svg"
+            alt=""
+          />
+          Spoonacular API</a
+        >
+      </div>
+    </footer>
   </body>
 </html>
