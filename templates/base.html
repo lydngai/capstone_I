@@ -47,11 +47,19 @@
             <a class="nav-link" href="/user/signup">Sign Up <Inp></Inp></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/user/login">Log In<Inp></Inp></a>
+            <a class="nav-link log-in-btn" href="/user/login"
+              >Log In<Inp></Inp
+            ></a>
           </li>
           {% else %}
           <li class="nav-item">
             <a class="nav-link log-out-btn" href="/user/logout">Log Out</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/recipes"
+              >Saved recipes
+              <span class="badge badge-info" id="recipe-count">New</span></a
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/user/profile">Profile <Inp></Inp></a>
@@ -66,7 +74,7 @@
           type="search"
           placeholder="Search for recipes"
           aria-label="Search"
-          name="search-bar-recipe"
+          name="search-recipe"
         />
 
         <button class="btn btn-default" id="search-bar-btn" type="submit">
@@ -81,13 +89,14 @@
       {% endfor %} {% block content %} {% endblock %}
     </div>
     <footer>
-      <div class="footer-copyright text-center py-3 fixed-bottom">
+      <div class="text-center py-3">
         Powered by
         <a href="https://spoonacular.com/food-api">
           <img
             class="footer-logo"
             src="/static/images/spoonacular.svg"
             alt=""
+            style="height: 2rem;"
           />
           Spoonacular API</a
         >

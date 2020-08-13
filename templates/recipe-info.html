@@ -1,21 +1,58 @@
 {% extends 'base.html' %} {% block content %}
-<h1>{{recipe.title}}</h1>
-<img src="{{recipe.image}}" alt="{{recipe.title}}" />
-<a href="{{recipe.sourceUrl}}">See the original at {{recipe.sourceName}}</a>
-<div>servings: {{recipe.servings}}</div>
-<div>Ready in: {{recipe.readyInMinutes}} minutes</div>
-<div>
-  Good for: {% for item in recipe.dishTypes %} {{item}} {% endfor %}
-</div>
-<h3>Ingredients</h3>
-<ul>
-  {% for item in recipe.extendedIngredients %}
-  <li>
-    {{item.original}}
-  </li>
-  {% endfor %}
-</ul>
-<!-- <div>Summary:{{recipe.summary}}</div> -->
+<div class="container">
+  <h2>{{recipe.title}}</h2>
+  <img src="{{recipe.image}}" alt="{{recipe.title}}" />
+  <div>
+    <a href="{{recipe.sourceUrl}}">See the original at {{recipe.sourceName}}</a>
+  </div>
+  <div>servings: {{recipe.servings}}</div>
+  <div>Ready in: {{recipe.readyInMinutes}} minutes</div>
+  <div>
+    Good for: {% for item in recipe.dishTypes %} {{item}} {% endfor %}
+  </div>
+  <h3>Ingredients</h3>
+  <ul>
+    {% for item in recipe.extendedIngredients %}
+    <li>
+      {{item.original}}
+    </li>
+    {% endfor %}
+  </ul>
 
-<a href="#" class="btn btn-secondary">Add to meal plan</a>
+  <a href="#" class="btn btn-secondary">Add to meal plan</a>
+</div>
+
+<div class="container">
+  <h3>Similar Recipe Ideas:</h3>
+  <div class="container">
+    <div class="row">
+      {% for recipe in similar %}
+      <div class="card col-sm-4 col-md-2 m-2">
+        <div class="card-body">
+          <h5 class="card-title">{{recipe.title}}</h5>
+
+          <p class="card-text">
+            <a href="{{recipe.sourceUrl}}">See the original </a>
+          </p>
+          <a href="/recipe/{{recipe.id}}" class="btn btn-primary m-1"
+            >Get more information</a
+          >
+          {% if g.user %}
+          <a
+            href="#"
+            class="btn btn-secondary add-recipe m-1"
+            data-id="{{recipe.id}}"
+            data-title="{{recipe.title}}"
+            data-ready="{{recipe.readyInMinutes}}"
+            data-servings="{{recipe.servings}} "
+            >Save recipe</a
+          >
+          {% endif %}
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
+</div>
 {% endblock %}

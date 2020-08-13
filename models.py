@@ -33,8 +33,7 @@ class User(db.Model):
     
     allergies = db.Column(db.Text)
 
-    recipes = db.relationship("Recipe", backref="recipes", secondary= "mealplans")
-    mealpans = db.relationship("Mealplan",backref="user", cascade="all,delete")
+    recipes = db.relationship("Recipe", backref="recipes", secondary= "user_recipes")
 
     def __repr__(self):
         return f"<User #{self.id}: {self.email}, {self.name}>"  
@@ -93,49 +92,47 @@ class Recipe(db.Model):
     source_url = db.Column(
         db.Text
     )
-    servings = db.Column(db.Integer, nullable=False)
-    ready_in_min = db.Column(db.Integer)
-    
-    ingredients = db.relationship('Ingredient', secondary ='recipe_ingredients', backref='recipes',  cascade="all, delete")
+    servings = db.Column(db.Integer)
+
     
 
-class Mealplan(db.Model):
+class User_Recipe(db.Model):
     """Planned recipes for user"""
-    __tablename__ = 'mealplans'
+    __tablename__ = 'user_recipes'
     id = db.Column(
         db.Integer, primary_key=True
     )
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    planned_day=db.Column(db.Date, default=datetime.now().strftime("%Y-%m-%d"))
     
-    meal = db.Column(db.Integer, nullable=False)
     recipe_id=db.Column(db.Integer, db.ForeignKey("recipes.id"))
 
-class Ingredient(db.Model):
-    """Ingredients"""
-    __tablename__ = 'ingredients'
-    id = db.Column(
-        db.Integer, primary_key=True
-    )
-    name = db.Column(
-        db.Text,   nullable=False, unique=True,
-    )
-    ## create method to parse and add missing ingredients?
+    notes = db.Column(db.Text)
 
-class Recipe_ingredient(db.Model):
-    """Recipe ingredient set with quantities"""
+# class Ingredient(db.Model):
+#     """Ingredients"""
+#     __tablename__ = 'ingredients'
+#     id = db.Column(
+#         db.Integer, primary_key=True
+#     )
+#     name = db.Column(
+#         db.Text,   nullable=False, unique=True,
+#     )
+#     ## create method to parse and add missing ingredients?
+
+# class Recipe_ingredient(db.Model):
+#     """Recipe ingredient set with quantities"""
     
-    __tablename__ = 'recipe_ingredients'
-    id = db.Column(
-        db.Integer, primary_key=True
-    )
+#     __tablename__ = 'recipe_ingredients'
+#     id = db.Column(
+#         db.Integer, primary_key=True
+#     )
 
-    recipe_id = db.Column(db.Integer,  db.ForeignKey("recipes.id"))
+#     recipe_id = db.Column(db.Integer,  db.ForeignKey("recipes.id"))
 
-    ingredient_id=db.Column(db.Integer, db.ForeignKey("ingredients.id"))
+#     ingredient_id=db.Column(db.Integer, db.ForeignKey("ingredients.id"))
 
-    unit = db.Column(db.Text, nullable = False)
-    quantity = db.Column(db.Integer, nullable=False)
+#     unit = db.Column(db.Text, nullable = False)
+#     quantity = db.Column(db.Integer, nullable=False)
 
     ## create method to parse and add recipe_ingredient?
     

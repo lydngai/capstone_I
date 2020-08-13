@@ -1,26 +1,28 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Recipe search results:</h1>
-<div class="container">
+<div class="container mb-5">
   <div class="row">
     {% for item in resp.results %}
     <!-- cards -->
-    <div class="col-sm-6">
+    <div class="col-sm-6 col-md-4 m-2">
       <div class="card">
         <img class="card-img-top" src="{{item.image}}" alt="{{item.title}}" />
         <div class="card-body">
           <h5 class="card-title">{{item.title}}</h5>
 
-          <a href="/recipe/{{item.id}}" class="btn btn-primary"
+          <a href="/recipe/{{item.id}}" class="btn btn-primary m-1"
             >Get more information</a
           >
+          {% if g.user %}
           <a
             href="#"
-            class="btn btn-secondary add-meal-plan"
+            class="btn btn-secondary add-recipe m-1"
             data-id="{{item.id}}"
             data-title="{{item.title}}"
             data-image="{{item.image}}"
-            >Add to meal plan</a
+            >Save recipe</a
           >
+          {% endif %}
         </div>
       </div>
     </div>

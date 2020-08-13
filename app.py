@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 from forms import UserAddForm, UserSignInForm, UserEditForm
 
-from models import db, connect_db, User, Recipe, Recipe_ingredient, Ingredient, Mealplan
+from models import db, connect_db, User, Recipe, User_Recipe
 
 import requests
 from config import apikey
@@ -18,7 +18,7 @@ app = Flask(__name__)
 # Bootstrap(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgres:///mealplanner'))
+    os.environ.get('DATABASE_URL', 'postgres:///recipebox'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
@@ -31,15 +31,16 @@ connect_db(app)
 API_BASE_URL=f"https://api.spoonacular.com/"
 CURR_USER='curr_user'
 allergens=["Dairy","Egg","Gluten","Grain","Peanut","Seafood","Sesame","Shellfish","Soy","Sulfite","Tree Nut","Wheat"]
-# setup is going to be lengthy...   
 
 ###################
-
 # set up routes to get recipes 
 @app.route('/')
 def show_landing_page():
     """show landing page"""
-    return render_template("home-anon.html")
+    if not g.user:
+        return render_template("home-anon.html")
+    # may want to change to saved recipes in the future
+    return redirect("/user/profile")
 
 @app.route('/advanced_search')
 def show_advanced_search():
@@ -64,8 +65,7 @@ def adv_search_query():
         if request.args.get(f"{item}"):
             intolerances.append(item)
 
-    payload={'query': query}
-    
+    payload={'query': query}    
     
     if inc_ing:
         payload["includeIngredients"]=inc_ing
@@ -79,16 +79,14 @@ def adv_search_query():
         payload['diet']=diet
 
     res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={query}&number=5&apiKey={apikey}",params=payload)
-
     response = res.json()
 
     return render_template("recipe-results.html",resp=response)    
 
-
 @app.route('/search')
 def search_query():
     """perform basic search from search bar"""
-    search = request.args.get('search-bar-recipe')
+    search = request.args.get('search-recipe')
     res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&number=5&apiKey={apikey}")
 
     response = res.json()
@@ -100,17 +98,18 @@ def show_recipe_info(id):
     """display detailed recipe information"""
 
     res = requests.get(f"{API_BASE_URL}/recipes/{id}/information?apiKey={apikey}")
-    response =res.json()
+    response = res.json()
+    sim = requests.get(f"{API_BASE_URL}/recipes/{id}/similar?apiKey={apikey}&number=5")
+    similar = sim.json()
 
-    return render_template("recipe-info.html",recipe=response)
+    return render_template("recipe-info.html",recipe=response, similar=similar)
+    
 
 ###########################
 ### ### User Routes ### ###
 ###########################
     # import pdb
     # pdb.set_trace()
-# warbler l.247 edit/delete
-# warbler
 @app.before_request
 def add_user_to_g():
     """If logged in, add curr user to Flask global."""
@@ -151,22 +150,24 @@ def signup():
             db.session.commit()
             log_in(user)
             flash(f"Welcome {form.name.data}!",'success')
+            return redirect('user/profile')
 
         except IntegrityError as e:
             flash("Email already registered",'danger')
-            return render_template('signup.html', form=form)
+            return render_template('user/signup.html', form=form)
     
     return render_template('user/signup.html', form=form)
 
 @app.route('/user/logout')
 def log_out_user():
+    """log out user"""
     log_out()
     flash("You have successfully logged out.", 'success')
     return redirect("/")
 
 @app.route('/user/login', methods=['GET','POST'])
 def log_in_user():
-    
+    """log in user"""
     form=UserSignInForm()
 
     if form.validate_on_submit():
@@ -174,7 +175,8 @@ def log_in_user():
         if user:
             log_in(user)
             flash(f"Welcome back {user.name}", 'success')
-        
+            return redirect("user/recipes")
+
         else:
             flash("Invalid credentials",'danger')
     
@@ -230,6 +232,13 @@ def delete_user_profile():
             flash("Invalid credentials",'danger')
 
     return render_template('user/delete-user.html',form=form)
+
+##############user recipes####
+@app.route('/user/recipes')
+def show_saved_recipes():
+
+    return render_template('user/saved-recipes.html')
+
 
 @app.errorhandler(404)
 def page_not_found(e):
