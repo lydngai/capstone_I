@@ -89,12 +89,14 @@ class Recipe(db.Model):
     image_url = db.Column(
         db.Text, default="https://f0.pngfuel.com/png/312/993/bowl-with-stick-sticker-beer-vegetarian-cuisine-hamburger-japanese-cuisine-food-food-icon-png-clip-art.png"
     )
-    source_url = db.Column(
-        db.Text
-    )
+    source_url = db.Column(db.Text)
     servings = db.Column(db.Integer)
+    ready_in_minutes = db.Column(db.Integer)
 
     
+    def __repr__(self):
+        return f"<Recipe #{self.id}: {self.name}>"  
+
 
 class User_Recipe(db.Model):
     """Planned recipes for user"""
@@ -107,6 +109,7 @@ class User_Recipe(db.Model):
     recipe_id=db.Column(db.Integer, db.ForeignKey("recipes.id"))
 
     notes = db.Column(db.Text)
+    
 
 # class Ingredient(db.Model):
 #     """Ingredients"""

@@ -27,9 +27,9 @@
   <div class="container">
     <div class="row">
       {% for recipe in similar %}
-      <div class="card col-sm-4 col-md-2 m-2">
+      <div class="card col-sm-4 col-md-3 m-2">
         <div class="card-body">
-          <h5 class="card-title">{{recipe.title}}</h5>
+          <h6 class="card-title">{{recipe.title}}</h6>
 
           <p class="card-text">
             <a href="{{recipe.sourceUrl}}">See the original </a>
@@ -42,9 +42,6 @@
             href="#"
             class="btn btn-secondary add-recipe m-1"
             data-id="{{recipe.id}}"
-            data-title="{{recipe.title}}"
-            data-ready="{{recipe.readyInMinutes}}"
-            data-servings="{{recipe.servings}} "
             >Save recipe</a
           >
           {% endif %}

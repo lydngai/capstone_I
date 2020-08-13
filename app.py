@@ -239,6 +239,24 @@ def show_saved_recipes():
 
     return render_template('user/saved-recipes.html')
 
+@app.route('/addRecipeToDb/<int:rec_id>')
+def add_recipe_to_database(rec_id):
+    '''check to see if recipe exists in database, add recipe to 
+    database if missing. return Recipe instance.'''
+
+    if Recipe.query.filter(Recipe.id == rec_id).first() is None:
+        # make api call to get recipe from spoonacular
+        res = requests.get(f"{API_BASE_URL}/recipes/{rec_id}/information?apiKey={apikey}")
+        rec = res.json()
+        recipe = Recipe(id=rec_id, name=rec["title"], image_url= rec["image"], source_url= rec["sourceUrl"], servings=rec["servings"] , ready_in_minutes= rec["readyInMinutes"])
+        db.session.add(recipe)
+        db.session.commit()
+
+    else:
+        recipe = Recipe.query.get(rec_id)
+
+    return recipe
+
 
 @app.errorhandler(404)
 def page_not_found(e):

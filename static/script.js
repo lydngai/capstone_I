@@ -31,3 +31,4 @@ $(".log-out-btn").click(function () {
 function updateRecipeBadge(num) {
   $("#recipe-count").text(num);
 }
+
