@@ -23,6 +23,8 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/axios/dist/axios.js"></script>
+
     <script
       type="text/javascript"
       href="{{ url_for('static', filename='api.js') }}"
@@ -31,6 +33,7 @@
       type="text/javascript"
       href="{{ url_for('static', filename='script.js') }}"
     ></script>
+    {% block javascript %} {% endblock %}
 
     <link
       rel="stylesheet"

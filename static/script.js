@@ -12,15 +12,24 @@ const recipes = [];
 
 $(".add-recipe").click(function () {
   const id = $(this).data("id");
-  const title = $(this).data("title");
-  const image = $(this).data("image");
-  const recipe = { id, title, image };
-  
-  recipe_count++;
-  recipes.push(recipe);
-  
   // save recipe to db
-  
+  // let res = await saveRecipe(rec_id)
+  // console.log(res)
+  $(this).text("Unsave recipe");
+  $(this).removeClass("add-recipe");
+  $(this).addClass("remove-recipe");
+  console.log(id);
+  //change button to 'remove recipe' from 'add recipe' class and text.
+
+  //save recipe to user
+});
+
+$(".remove-recipe").click(function () {
+  const id = $(this).data("id");
+  // save recipe to db
+  // let res = await saveRecipe(rec_id)
+  //change button to 'remove recipe' from 'add recipe' class and text.
+
   //save recipe to user
 });
 
@@ -31,4 +40,3 @@ $(".log-out-btn").click(function () {
 function updateRecipeBadge(num) {
   $("#recipe-count").text(num);
 }
-

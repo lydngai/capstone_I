@@ -239,10 +239,24 @@ def show_saved_recipes():
 
     return render_template('user/saved-recipes.html')
 
-@app.route('/addRecipeToDb/<int:rec_id>')
+@app.route('/save_to_recipebox/<int:rec_id>')
+def save_user_recipes(rec_id):
+    """Save recipe to user's recipebox"""
+    if not g.user:
+        flash("Unauthorized access",'danger')
+        return redirect('/')
+    
+    recipe=add_recipe_to_database(rec_id)
+    
+    user_id = g.user.id
+    u_r = User_Recipe(user_id=user_id, recipe_id=rec_id)
+    db.session.add(u_r)
+    db.session.commit()
+    return recipe
+
 def add_recipe_to_database(rec_id):
-    '''check to see if recipe exists in database, add recipe to 
-    database if missing. return Recipe instance.'''
+    """Check to see if recipe exists in database, add recipe to 
+    database if missing. Return Recipe instance."""
 
     if Recipe.query.filter(Recipe.id == rec_id).first() is None:
         # make api call to get recipe from spoonacular
@@ -255,8 +269,7 @@ def add_recipe_to_database(rec_id):
     else:
         recipe = Recipe.query.get(rec_id)
 
-    return recipe
-
+    return recipe 
 
 @app.errorhandler(404)
 def page_not_found(e):
