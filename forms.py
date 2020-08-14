@@ -25,3 +25,10 @@ class UserEditForm(FlaskForm):
     
     cooking_for=IntegerField('Cooking for', default=1)
     allergies=StringField("Allergens/Intolerances")
+
+class RecipeNoteForm(FlaskForm):
+    """Save user's notes for a recipe"""
+    # name=StringField('Name', validators=[DataRequired()])
+    
+    # cooking_for=IntegerField('Cooking for', default=1)
+    # allergies=StringField("Allergens/Intolerances")

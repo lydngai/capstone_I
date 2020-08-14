@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Recipe search results:</h1>
-<div class="container mb-5">
+<div class="container mb-5 recipe-cards">
   <div class="row">
     {% for item in resp.results %}
     <!-- cards -->
@@ -14,12 +14,9 @@
             >Get more information</a
           >
           {% if g.user %}
-          <a
-            href="#"
-            class="btn btn-secondary add-recipe m-1"
-            data-id="{{item.id}}"
-            >Save recipe</a
-          >
+          <div class="btn btn-secondary add-recipe m-1" data-id="{{item.id}}">
+            Save recipe
+          </div>
           {% endif %}
         </div>
       </div>

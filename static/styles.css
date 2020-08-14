@@ -35,7 +35,8 @@ footer {
 }
 
 .remove-recipe {
-  background-color: #29434e;
+  /* background-color: #29434e; */
+  background-color: darkmagenta;
   color: #ffffff;
 }
 /* ======================= Nav */

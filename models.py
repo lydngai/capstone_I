@@ -34,6 +34,7 @@ class User(db.Model):
     allergies = db.Column(db.Text)
 
     recipes = db.relationship("Recipe", backref="recipes", secondary= "user_recipes")
+    recipe_notes = db.relationship("User_Recipe", backref="user_recipes",cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User #{self.id}: {self.email}, {self.name}>"  

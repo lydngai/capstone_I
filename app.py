@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, jsonify, request, redirect, session, g, abort, flash
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_cors import CORS
 # from flask_bootstrap import Bootstrap
 # import random
 import requests
@@ -14,14 +15,14 @@ import requests
 from config import apikey
 
 app = Flask(__name__)
-
+CORS(app)
 # Bootstrap(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgres:///recipebox'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 toolbar = DebugToolbarExtension(app)
@@ -31,10 +32,16 @@ connect_db(app)
 API_BASE_URL=f"https://api.spoonacular.com/"
 CURR_USER='curr_user'
 allergens=["Dairy","Egg","Gluten","Grain","Peanut","Seafood","Sesame","Shellfish","Soy","Sulfite","Tree Nut","Wheat"]
+num_results=2 # change results per page
+############fake migrating
+# u = User(name="lu", email="lu@gmail.com", password='asdf')
+# rec = Recipe(name="brownies",source_url="https://smittenkitchen.com/", servings=12, ready_in_minutes=45)
+# db.session.add_all([u,rec])
+# db.session.commit()
 
 ###################
 # set up routes to get recipes 
-@app.route('/')
+@app.route('/') 
 def show_landing_page():
     """show landing page"""
     if not g.user:
@@ -78,7 +85,7 @@ def adv_search_query():
     if diet:
         payload['diet']=diet
 
-    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={query}&number=5&apiKey={apikey}",params=payload)
+    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={query}&number={num_results}&apiKey={apikey}",params=payload)
     response = res.json()
 
     return render_template("recipe-results.html",resp=response)    
@@ -87,7 +94,7 @@ def adv_search_query():
 def search_query():
     """perform basic search from search bar"""
     search = request.args.get('search-recipe')
-    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&number=5&apiKey={apikey}")
+    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&number={num_results}&apiKey={apikey}")
 
     response = res.json()
 
@@ -99,7 +106,7 @@ def show_recipe_info(id):
 
     res = requests.get(f"{API_BASE_URL}/recipes/{id}/information?apiKey={apikey}")
     response = res.json()
-    sim = requests.get(f"{API_BASE_URL}/recipes/{id}/similar?apiKey={apikey}&number=5")
+    sim = requests.get(f"{API_BASE_URL}/recipes/{id}/similar?apiKey={apikey}&number={num_results}")
     similar = sim.json()
 
     return render_template("recipe-info.html",recipe=response, similar=similar)
@@ -150,7 +157,7 @@ def signup():
             db.session.commit()
             log_in(user)
             flash(f"Welcome {form.name.data}!",'success')
-            return redirect('user/profile')
+            return redirect('/user/profile')
 
         except IntegrityError as e:
             flash("Email already registered",'danger')
@@ -236,8 +243,18 @@ def delete_user_profile():
 ##############user recipes####
 @app.route('/user/recipes')
 def show_saved_recipes():
+    """show user's saved recipes"""
+    if not g.user:
+        flash("Unauthorized access",'danger')
+        return redirect('/')
+    u_id = g.user.id
+    user=User.query.get_or_404(u_id)
+    recipes = user.recipes
+    # recipe_notes=user.recipe_notes
+    # import pdb;
+    # pdb.set_trace()
 
-    return render_template('user/saved-recipes.html')
+    return render_template('user/saved-recipes.html', recipes=recipes)
 
 @app.route('/save_to_recipebox/<int:rec_id>')
 def save_user_recipes(rec_id):

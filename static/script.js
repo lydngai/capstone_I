@@ -10,26 +10,39 @@ const recipes = [];
 // write a function to add recipe id to local session? all info - id, image,title
 // when the recipe is added to local session then it can be pulled in a multiple recipe grab...
 
-$(".add-recipe").click(function () {
-  const id = $(this).data("id");
+const BASE_API_URL = "http://localhost:5000/";
+
+// save recipe to database
+async function saveRecipe(rec_id) {
+  //saves recipe for user
+  const response = await axios.get(
+    `${BASE_API_URL}save_to_recipebox/${rec_id}`
+  );
+  //response will = Recipe instance
+}
+
+$(".recipe-cards").on("click", ".add-recipe", async function () {
+  const rec_id = $(this).data("id");
   // save recipe to db
-  // let res = await saveRecipe(rec_id)
-  // console.log(res)
+  // ADD ASYNC
+  console.log(rec_id);
+  let res = await saveRecipe(rec_id);
+  console.log(res);
   $(this).text("Unsave recipe");
   $(this).removeClass("add-recipe");
   $(this).addClass("remove-recipe");
-  console.log(id);
-  //change button to 'remove recipe' from 'add recipe' class and text.
-
-  //save recipe to user
+  //save recipe to global user object
 });
 
-$(".remove-recipe").click(function () {
+$(".recipe-cards").on("click", ".remove-recipe", function (e) {
   const id = $(this).data("id");
   // save recipe to db
   // let res = await saveRecipe(rec_id)
   //change button to 'remove recipe' from 'add recipe' class and text.
-
+  $(this).text("Save recipe");
+  $(this).removeClass("remove-recipe");
+  $(this).addClass("add-recipe");
+  console.log(id);
   //save recipe to user
 });
 

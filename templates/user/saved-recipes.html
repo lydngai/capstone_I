@@ -1,7 +1,31 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Saved recipes</h1>
-<div>
-  Show user's saved recipes. Allow them to delete and add notes (it's a
-  glorified TODO!)
+<div class="container recipe-cards">
+  <div class="row">
+    {% for item in recipes %}
+    <!-- cards -->
+    <div class="col-sm-6 m-2">
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="{{item.image_url}}"
+          alt="{{item.name}}"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{item.name}}</h5>
+
+          <a href="/recipe/edit/{{item.id}}" class="btn btn-primary m-1"
+            >Edit Notes</a
+          >
+          <a
+            href="/recipe/{{item.id}}"
+            class="btn btn-primary remove-recipe m-1"
+            >Unsave Recipe</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

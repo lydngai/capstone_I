@@ -25,16 +25,8 @@
     ></script>
     <script src="https://unpkg.com/axios/dist/axios.js"></script>
 
-    <script
-      type="text/javascript"
-      href="{{ url_for('static', filename='api.js') }}"
-    ></script>
-    <script
-      type="text/javascript"
-      href="{{ url_for('static', filename='script.js') }}"
-    ></script>
-    {% block javascript %} {% endblock %}
-
+    <!-- <script type="text/javascript" src="/static/api.js"></script>
+    <script type="text/javascript" src="./static/script.js"></script> -->
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
@@ -102,7 +94,7 @@
       <div class="alert alert-{{ category }}">{{ message }}</div>
       {% endfor %} {% block content %} {% endblock %}
     </div>
-    <footer>
+    <footer class="mt-3">
       <div class="text-center py-3">
         Powered by
         <a href="https://spoonacular.com/food-api">
@@ -115,5 +107,14 @@
         >
       </div>
     </footer>
+
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='api.js') }}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='script.js') }}"
+    ></script>
   </body>
 </html>
