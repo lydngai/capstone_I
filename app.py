@@ -18,11 +18,13 @@ app = Flask(__name__)
 CORS(app)
 # Bootstrap(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgres:///recipebox'))
+# app.config['SQLALCHEMY_DATABASE_URI'] = (
+#     os.environ.get('DATABASE_URL', 'postgres:///recipebox'))
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///recipebox"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = False
+app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 toolbar = DebugToolbarExtension(app)
@@ -32,7 +34,8 @@ connect_db(app)
 API_BASE_URL=f"https://api.spoonacular.com/"
 CURR_USER='curr_user'
 allergens=["Dairy","Egg","Gluten","Grain","Peanut","Seafood","Sesame","Shellfish","Soy","Sulfite","Tree Nut","Wheat"]
-num_results=2 # change results per page
+num_results=3 # change results per page
+
 ############fake migrating
 # u = User(name="lu", email="lu@gmail.com", password='asdf')
 # rec = Recipe(name="brownies",source_url="https://smittenkitchen.com/", servings=12, ready_in_minutes=45)
@@ -251,25 +254,31 @@ def show_saved_recipes():
     user=User.query.get_or_404(u_id)
     recipes = user.recipes
     # recipe_notes=user.recipe_notes
-    # import pdb;
-    # pdb.set_trace()
+    
 
     return render_template('user/saved-recipes.html', recipes=recipes)
 
 @app.route('/save_to_recipebox/<int:rec_id>')
-def save_user_recipes(rec_id):
+def save_user_recipe(rec_id):
     """Save recipe to user's recipebox"""
     if not g.user:
         flash("Unauthorized access",'danger')
         return redirect('/')
-    
     recipe=add_recipe_to_database(rec_id)
-    
+    print("######################################")
+    # import pdb;
+    # pdb.set_trace()
+    print(recipe)
+    print("######################################")
     user_id = g.user.id
-    u_r = User_Recipe(user_id=user_id, recipe_id=rec_id)
-    db.session.add(u_r)
-    db.session.commit()
-    return recipe
+    
+    if User_Recipe.query.filter(User_Recipe.recipe_id == rec_id, User_Recipe.user_id==user_id).first() is None:
+        u_r = User_Recipe(user_id=user_id, recipe_id=rec_id)
+        db.session.add(u_r)
+        db.session.commit()
+        print("committed")
+        print("########################")
+    return (recipe.name)
 
 def add_recipe_to_database(rec_id):
     """Check to see if recipe exists in database, add recipe to 

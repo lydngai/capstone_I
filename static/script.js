@@ -10,17 +10,6 @@ const recipes = [];
 // write a function to add recipe id to local session? all info - id, image,title
 // when the recipe is added to local session then it can be pulled in a multiple recipe grab...
 
-const BASE_API_URL = "http://localhost:5000/";
-
-// save recipe to database
-async function saveRecipe(rec_id) {
-  //saves recipe for user
-  const response = await axios.get(
-    `${BASE_API_URL}save_to_recipebox/${rec_id}`
-  );
-  //response will = Recipe instance
-}
-
 $(".recipe-cards").on("click", ".add-recipe", async function () {
   const rec_id = $(this).data("id");
   // save recipe to db
