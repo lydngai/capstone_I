@@ -26,6 +26,11 @@ body {
   cursor: pointer;
 }
 
+.btn:active {
+  background-color: var(--s-dark);
+  color: white;
+}
+
 /* input:focus {
   border-color: var(--s-dark);
 } */
@@ -44,7 +49,6 @@ footer {
   right: 0;
   bottom: 0;
   left: 0;
-  position: fixed;
   background-color: var(--p-dark);
   opacity: 0.5;
 }
@@ -71,7 +75,7 @@ footer {
   background-color: var(--secondary);
   height: 46px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-
+  padding: 8px 3px 5px 8px;
   position: relative;
   z-index: 9999;
 }
@@ -99,6 +103,11 @@ ul.nav.navbar-nav {
 ul.nav.navbar-nav li {
   margin: 0 0.5rem;
   display: flex;
+}
+
+.nav-link:hover {
+  background-color: var(--p-light);
+  color: var(--p-dark);
 }
 
 #search.form-control {
@@ -136,6 +145,7 @@ ul.nav.navbar-nav li {
   border-left: 1px solid var(--s-dark);
   border-right: 1px solid var(--s-dark);
   height: 100%;
+  padding-bottom: 4rem;
 }
 
 /* ===================== User profile */
