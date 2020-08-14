@@ -90,14 +90,13 @@ def adv_search_query():
 
     res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={query}&number={num_results}&apiKey={apikey}",params=payload)
     response = res.json()
-
     return render_template("recipe-results.html",resp=response)    
 
 @app.route('/search')
 def search_query():
     """perform basic search from search bar"""
     search = request.args.get('search-recipe')
-    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&number={num_results}&apiKey={apikey}")
+    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&number={num_results}&apiKey={apikey}") 
 
     response = res.json()
 
@@ -237,7 +236,7 @@ def delete_user_profile():
             db.session.commit()
             log_out()
             flash(f"Account deleted", 'success')
-
+            return redirect("/")
         else:
             flash("Invalid credentials",'danger')
 
