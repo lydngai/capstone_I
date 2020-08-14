@@ -1,7 +1,16 @@
 /* ====================== General */
+:root {
+  --primary: #7fa7ba;
+  --p-light: #b0d8ec;
+  --p-dark: #50788a;
+  --secondary: #ffab91;
+  --s-light: #ffddc1;
+  --s-exlight: #fceadc;
+  --s-dark: #c97b63;
+}
 
 body {
-  background-color: #e6ecf0;
+  background-color: #f7dfd7;
 }
 
 .form-control {
@@ -9,11 +18,26 @@ body {
 }
 
 .btn {
-  border-radius: 50px;
+  border-radius: 12px;
+  background-color: var(--secondary);
 }
 
 .btn:hover {
   cursor: pointer;
+}
+
+/* input:focus {
+  border-color: var(--s-dark);
+} */
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0 0 5px var(--s-dark);
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid var(--s-dark);
 }
 
 footer {
@@ -21,6 +45,8 @@ footer {
   bottom: 0;
   left: 0;
   position: fixed;
+  background-color: var(--p-dark);
+  opacity: 0.5;
 }
 
 /* ======================= Footer */
@@ -41,41 +67,29 @@ footer {
 }
 /* ======================= Nav */
 
-/* .navbar {
-  background-color: #fff;
+.navbar {
+  background-color: var(--secondary);
   height: 46px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  margin-bottom: 1rem;
+
   position: relative;
   z-index: 9999;
 }
 
 .navbar a {
-  color: #66757f;
+  color: #000000;
   font-size: 13px;
   font-weight: bold;
 }
 
 .navbar a:hover {
-  color: #1c94e0;
+  background-color: var(--p-light);
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
-}
-
-.navbar-brand > img {
-  display: inline-block;
-  margin-bottom: 2px;
-  margin-right: 5px;
-  width: 20px;
-  border-radius: 2px;
-}
-
-.nav > li > a > img {
-  width: 32px;
-  border-radius: 32px;
+  columns: #000000;
 }
 
 ul.nav.navbar-nav {
@@ -87,28 +101,22 @@ ul.nav.navbar-nav li {
   display: flex;
 }
 
-nav form.navbar-form {
-  display: flex;
-  position: relative;
-}
-
 #search.form-control {
   border-radius: 20px;
-  margin-bottom: 0;
+  margin-bottom: 0px;
   width: 100%;
   font-size: 13px;
   padding-right: 28px;
   box-sizing: border-box;
 }
 
-#search.form-control + .btn {
+#search-bar-btn {
   position: absolute;
   right: 9px;
-  top: 2px;
-  bottom: 4px;
   z-index: 1;
-  padding: 0;
-  color: #66757f;
+  padding: 23px;
+  color: var(--secondary);
+  background-color: transparent;
 }
 
 #search.form-control + .btn:active,
@@ -119,57 +127,16 @@ nav form.navbar-form {
 #search:active,
 #search:focus {
   box-shadow: none;
-  border: 2px solid #007bff;
-} */
-
-/* on "onboarding" pages (signup & login), the navbar is
-     different: no search box, the logo is centered, and it has
-     a background color.
-   */
-
-/* .onboarding > .navbar {
-  background-image: url("/static/images/nav-bg.png");
-  background-size: 100% 100%;
+  border: 2px solid var(--s-dark);
 }
-
-.onboarding .navbar-header {
-  margin: 0 auto;
+/* ======================= adv recipe search */
+.content {
+  padding: 1rem;
+  background-color: var(--s-exlight);
+  border-left: 1px solid var(--s-dark);
+  border-right: 1px solid var(--s-dark);
+  height: 100%;
 }
-
-.onboarding .navbar-brand {
-  margin: 0;
-}
-
-.onboarding .navbar-brand span {
-  display: none;
-}
-
-.onboarding .nav.navbar-nav.navbar-right {
-  position: absolute;
-  right: 16px;
-}
-
-.onboarding > .navbar a {
-  color: #fff;
-}
-
-.onboarding > .navbar form.navbar-form {
-  display: none;
-}
-
-.onboarding {
-  background-color: #fff;
-}
-
-@media (max-width: 468px) {
-  nav form.navbar-form {
-    display: none;
-  }
-}
-
-nav + .container {
-  margin-bottom: 1rem;
-} */
 
 /* ===================== User profile */
 /* 
@@ -272,35 +239,7 @@ nav + .container {
   font-size: 18px;
   font-weight: bold;
   padding-top: 3px;
-}
-
-#messages {
-  position: relative;
-}
-
-#messages .message-link {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-}
-
-#messages .list-group-item a:not(.message-link) {
-  position: relative;
-  z-index: 2;
-}
-
-#messages .list-group-item {
-  display: flex;
-  align-items: flex-start;
-  padding: 7px 20px 12px;
-}
-
-#messages:not(.no-hover) .list-group-item:hover {
-  background-color: #e6ecf0;
-}
+} */
 
 #sidebar-username {
   margin-top: 30px;
@@ -318,7 +257,7 @@ nav + .container {
 
 .user-location {
   color: #657786;
-} */
+}
 
 /* ==================== User cards on follower/following pages */
 /* 

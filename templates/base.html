@@ -14,12 +14,12 @@
       integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
       crossorigin="anonymous"
     ></script>
-    <script
+    <!-- <script
       src="https://pagecdn.io/lib/bootstrap/4.5.1/js/bootstrap.min.js"
       crossorigin="anonymous"
       integrity="sha256-0IiaoZCI++9oAAvmCb5Y0r93XkuhvJpRalZLffQXLok="
-    ></script>
-
+    ></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.js"></script>
 
     <!-- <script type="text/javascript" src="/static/api.js"></script>
@@ -36,10 +36,8 @@
   </head>
 
   <body>
-    <nav
-      class="navbar navbar-expand-md navbar-light bg-secondary justify-content-between"
-    >
-      <a class="navbar-brand text-light" href="/">Meal Planner</a>
+    <nav class="navbar navbar-expand-md navbar-light justify-content-between">
+      <a class="navbar-brand" href="/">Recipe Box</a>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
@@ -78,10 +76,11 @@
           placeholder="Search for recipes"
           aria-label="Search"
           name="search-recipe"
+          id="search"
         />
 
         <button class="btn btn-default" id="search-bar-btn" type="submit">
-          <span class="fa fa-search text-light"></span>
+          <span class="fa fa-search"></span>
         </button>
       </form>
     </nav>
@@ -92,7 +91,7 @@
       {% endfor %} {% block content %} {% endblock %}
     </div>
     <footer class="mt-3">
-      <div class="text-center py-3">
+      <div class="text-center py-1">
         Powered by
         <a href="https://spoonacular.com/food-api">
           <img

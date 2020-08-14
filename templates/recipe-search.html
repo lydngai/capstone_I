@@ -1,59 +1,82 @@
 {% extends 'base.html' %} {% block content %}
-<div class="home-hero">
+<div class="content">
   <h1>Advanced Recipe Search</h1>
   <div class="container">
     <form action="/adv_search_results" id="recipe-search">
-      <div>
-        <label for="advQuery">Search:</label>
-        <input
-          id="advQuery"
-          name="advQuery"
-          type="text"
-          placeholder="Search"
-          required
-        />
+      <div class="form-row">
+        <div class="col-9">
+          <label for="advQuery">Search (required):</label>
+          <input
+            id="advQuery"
+            name="advQuery"
+            type="text"
+            placeholder="Search"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col">
+          <label for="includeIngredients">Must include:</label>
+          <input
+            id="includeIngredients"
+            name="includeIngredients"
+            type="text"
+            placeholder="..."
+            class="form-control"
+          />
+        </div>
+        <div class="col">
+          <label for="excludeIngredients">Must exclude:</label>
+          <input
+            id="excludeIngredients"
+            name="excludeIngredients"
+            type="text"
+            placeholder="..."
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-8">
+          <label for="diet">Diet:</label>
+          <select name="diet" id="diet" class="form-control">
+            {% for diet in diets %}
+            <option value="{{diet}}">{{diet}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label for="cookTime">Max Cooking Time (minutes):</label>
+            <input
+              id="cooktime"
+              name="cooktime"
+              type="number"
+              placeholder="..."
+              class="form-control"
+            />
+          </div>
+        </div>
       </div>
 
       <div>
-        <label for="includeIngredients">Must include:</label>
-        <input
-          id="includeIngredients"
-          name="includeIngredients"
-          type="text"
-          placeholder="..."
-        />
-      </div>
-      <div>
-        <label for="excludeIngredients">Must exclude:</label>
-        <input
-          id="excludeIngredients"
-          name="excludeIngredients"
-          type="text"
-          placeholder="..."
-        />
-      </div>
-      <div>
-        <label for="cookTime">Max Cooking Time (minutes):</label>
-        <input id="cooktime" name="cooktime" type="number" placeholder="..." />
-      </div>
-      <div>
-        <div>Allergens/Intolerances (optional):</div>
+        <div>Allergens/Intolerances:</div>
         {% for item in intolerances%}
-        <label
-          ><input type="checkbox" value="{{item}}" name="{{item}}" />
+        <label for="{{item}}"
+          ><input
+            type="checkbox"
+            value="{{item}}"
+            name="{{item}}"
+            id="{{item}}"
+          />
           {{item}}</label
         >
         {% endfor %}
       </div>
-      <div>
-        <label for="diet">Diet: (optional)</label>
-        <select name="diet" id="diet">
-          {% for diet in diets %}
-          <option value="{{diet}}">{{diet}}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <button id="adv-src-btn">Search</button>
+
+      <button class="btn" id="adv-src-btn">Search</button>
     </form>
   </div>
 </div>
