@@ -184,7 +184,7 @@ def log_in_user():
         if user:
             log_in(user)
             flash(f"Welcome back {user.name}", 'success')
-            return redirect("user/recipes")
+            return redirect("/user/recipes")
 
         else:
             flash("Invalid credentials",'danger')
@@ -260,17 +260,17 @@ def show_saved_recipes():
 @app.route('/save_to_recipebox/<int:rec_id>')
 def save_user_recipe(rec_id):
     """Save recipe to user's recipebox"""
-    if not g.user:
-        flash("Unauthorized access",'danger')
-        return redirect('/')
+    # if not g.user:
+    #     flash("Unauthorized access",'danger')
+    #     return redirect('/')
     recipe=add_recipe_to_database(rec_id)
     print("######################################")
     # import pdb;
     # pdb.set_trace()
     print(recipe)
     print("######################################")
-    user_id = g.user.id
-    
+    # user_id = g.user.id
+    user_id=1
     if User_Recipe.query.filter(User_Recipe.recipe_id == rec_id, User_Recipe.user_id==user_id).first() is None:
         u_r = User_Recipe(user_id=user_id, recipe_id=rec_id)
         db.session.add(u_r)
