@@ -23,16 +23,19 @@ $(".recipe-cards").on("click", ".add-recipe", async function () {
   //save recipe to global user object
 });
 
-$(".recipe-cards").on("click", ".remove-recipe", function (e) {
+$(".recipe-cards").on("click", ".remove-recipe", () => {
+  //delay added so action can complete
+  setTimeout(() => {
+    $(this).parentsUntil(".saved-card").remove();
+  }, 3000);
+});
+
+//this is for items on the search page that have previously been saved
+$(".recipe-cards").on("click", ".unsave-recipe", function () {
   const id = $(this).data("id");
-  // save recipe to db
-  // let res = await saveRecipe(rec_id)
-  //change button to 'remove recipe' from 'add recipe' class and text.
   $(this).text("Save recipe");
   $(this).removeClass("remove-recipe");
   $(this).addClass("add-recipe");
-  console.log(id);
-  //save recipe to user
 });
 
 $(".log-out-btn").click(function () {

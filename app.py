@@ -274,7 +274,7 @@ def save_user_recipe(rec_id):
 
     return redirect('/user/recipes')
 
-@app.route('/unsave_recipe/<int:rec_id>', methods=['DELETE'])
+@app.route('/unsave_recipe/<int:rec_id>', methods=['GET'])
 def unsave_recipe(rec_id):
     """remove recipe from user's saved recipes"""
     if not g.user:
@@ -287,7 +287,8 @@ def unsave_recipe(rec_id):
     
     db.session.delete(u_r)
     db.session.commit()
-    return("success",200)
+
+    return redirect('/user/recipes')
 
 @app.route('/recipe/edit/<int:rec_id>',methods=['GET','POST'])
 def edit_recipe_notes(rec_id):

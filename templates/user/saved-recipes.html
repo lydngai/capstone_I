@@ -4,7 +4,7 @@
   <div class="row">
     {% for item in recipes %}
     <!-- cards -->
-    <div class="col-sm-6 m-2">
+    <div class="col-sm-6 col-md-3 m-2 saved-card">
       <div class="card">
         <img
           class="card-img-top"
@@ -14,19 +14,12 @@
         <div class="card-body">
           <h5 class="card-title">{{item.name}}</h5>
 
-          <a href="/recipe/edit/{{item.id}}" class="btn btn-primary m-1"
-            >Edit Notes</a
-          >
-          <form method="DELETE" action="/unsave_recipe/{{item.id}}">
+          <a href="/recipe/edit/{{item.id}}" class="btn m-1">Edit Notes</a>
+          <form method="GET" action="/unsave_recipe/{{item.id}}">
             <button class="btn remove-recipe m-1" data-id="{{item.id}}">
               Remove recipe
             </button>
           </form>
-          <a
-            href="/recipe/{{item.id}}"
-            class="btn btn-primary remove-recipe m-1"
-            >Unsave Recipe</a
-          >
         </div>
       </div>
     </div>

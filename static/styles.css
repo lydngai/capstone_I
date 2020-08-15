@@ -20,10 +20,12 @@ body {
 .btn {
   border-radius: 12px;
   background-color: var(--secondary);
+  box-shadow: none;
 }
 
 .btn:hover {
   cursor: pointer;
+  box-shadow: 0 5px 15px var(--s-dark);
 }
 
 .btn:active {
