@@ -15,8 +15,8 @@ $(".recipe-cards").on("click", ".add-recipe", async function () {
   // save recipe to db
   // ADD ASYNC
   console.log(rec_id);
-  let res = await saveRecipe(rec_id);
-  console.log(res);
+  // let res = await saveRecipe(rec_id);
+  // console.log(res);
   $(this).text("Unsave recipe");
   $(this).removeClass("add-recipe");
   $(this).addClass("remove-recipe");

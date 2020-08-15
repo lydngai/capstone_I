@@ -17,6 +17,11 @@
           <a href="/recipe/edit/{{item.id}}" class="btn btn-primary m-1"
             >Edit Notes</a
           >
+          <form method="DELETE" action="/unsave_recipe/{{item.id}}">
+            <button class="btn remove-recipe m-1" data-id="{{item.id}}">
+              Remove recipe
+            </button>
+          </form>
           <a
             href="/recipe/{{item.id}}"
             class="btn btn-primary remove-recipe m-1"

@@ -7,7 +7,7 @@ from flask_cors import CORS
 import requests
 from sqlalchemy.exc import IntegrityError
 
-from forms import UserAddForm, UserSignInForm, UserEditForm
+from forms import UserAddForm, UserSignInForm, UserEditForm,RecipeNoteForm
 
 from models import db, connect_db, User, Recipe, User_Recipe
 
@@ -260,24 +260,55 @@ def show_saved_recipes():
 @app.route('/save_to_recipebox/<int:rec_id>')
 def save_user_recipe(rec_id):
     """Save recipe to user's recipebox"""
-    # if not g.user:
-    #     flash("Unauthorized access",'danger')
-    #     return redirect('/')
+    if not g.user:
+        flash("Unauthorized access",'danger')
+        return redirect('/')
+
+    user_id = g.user.id
     recipe=add_recipe_to_database(rec_id)
-    print("######################################")
-    # import pdb;
-    # pdb.set_trace()
-    print(recipe)
-    print("######################################")
-    # user_id = g.user.id
-    user_id=1
+    
     if User_Recipe.query.filter(User_Recipe.recipe_id == rec_id, User_Recipe.user_id==user_id).first() is None:
         u_r = User_Recipe(user_id=user_id, recipe_id=rec_id)
         db.session.add(u_r)
         db.session.commit()
-        print("committed")
-        print("########################")
-    return (recipe.name)
+
+    return redirect('/user/recipes')
+
+@app.route('/unsave_recipe/<int:rec_id>', methods=['DELETE'])
+def unsave_recipe(rec_id):
+    """remove recipe from user's saved recipes"""
+    if not g.user:
+        flash("Unauthorized access", 'danger')
+        return redirect('/')
+    
+    user_id=g.user.id
+    
+    u_r = User_Recipe.query.filter(User_Recipe.user_id==user_id, User_Recipe.recipe_id==rec_id).first()
+    
+    db.session.delete(u_r)
+    db.session.commit()
+    return("success",200)
+
+@app.route('/recipe/edit/<int:rec_id>',methods=['GET','POST'])
+def edit_recipe_notes(rec_id):
+    """edit users' recipe notes"""
+    if not g.user:
+        flash("Unauthorized access", 'danger')
+        return redirect('/')
+    
+    # maybe include users id in the route..
+    user_id=g.user.id
+    user_note = User_Recipe.query.filter(User_Recipe.user_id==user_id, User_Recipe.recipe_id==rec_id).first()
+    
+    form = RecipeNoteForm(obj=user_note)
+
+    if form.validate_on_submit():
+        user_note.notes=form.notes.data
+        db.session.commit()
+        return redirect('/user/recipes')
+
+    return render_template("edit-note.html",form=form)
+
 
 def add_recipe_to_database(rec_id):
     """Check to see if recipe exists in database, add recipe to 

@@ -12,9 +12,14 @@
 
           <a href="/recipe/{{item.id}}" class="btn m-1">Get more information</a>
           {% if g.user %}
-          <div class="btn btn-secondary add-recipe m-1" data-id="{{item.id}}">
-            Save recipe
-          </div>
+          <form method="GET" action="/save_to_recipebox/{{item.id}}">
+            <button
+              class="btn btn-secondary add-recipe m-1"
+              data-id="{{item.id}}"
+            >
+              Save recipe
+            </button>
+          </form>
           {% endif %}
         </div>
       </div>

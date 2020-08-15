@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, IntegerField, SelectField
+from wtforms import StringField, PasswordField, IntegerField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length
 
 class UserAddForm(FlaskForm):
@@ -28,7 +28,7 @@ class UserEditForm(FlaskForm):
 
 class RecipeNoteForm(FlaskForm):
     """Save user's notes for a recipe"""
-    # name=StringField('Name', validators=[DataRequired()])
+    notes=TextAreaField('Notes', validators=[DataRequired()])
     
     # cooking_for=IntegerField('Cooking for', default=1)
     # allergies=StringField("Allergens/Intolerances")

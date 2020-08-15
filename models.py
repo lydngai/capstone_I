@@ -34,7 +34,7 @@ class User(db.Model):
     allergies = db.Column(db.Text)
 
     recipes = db.relationship("Recipe", backref="users", secondary= "user_recipes")
-    recipe_notes = db.relationship("User_Recipe", backref="user_recipes",cascade="all, delete-orphan")
+    recipe_notes = db.relationship("User_Recipe", backref="user",cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<User #{self.id}: {self.email}, {self.name}>"  
@@ -93,51 +93,15 @@ class Recipe(db.Model):
     source_url = db.Column(db.Text)
     servings = db.Column(db.Integer)
     ready_in_minutes = db.Column(db.Integer)
-
     
     def __repr__(self):
         return f"<Recipe #{self.id}: {self.name}>"  
 
-
 class User_Recipe(db.Model):
     """Planned recipes for user"""
     __tablename__ = 'user_recipes'
-    id = db.Column(
-        db.Integer, primary_key=True
-    )
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer,  db.ForeignKey("users.id"), primary_key=True)
     
-    recipe_id=db.Column(db.Integer, db.ForeignKey("recipes.id"))
+    recipe_id=db.Column(db.Integer, db.ForeignKey("recipes.id"), primary_key=True)
 
     notes = db.Column(db.Text)
-    
-
-# class Ingredient(db.Model):
-#     """Ingredients"""
-#     __tablename__ = 'ingredients'
-#     id = db.Column(
-#         db.Integer, primary_key=True
-#     )
-#     name = db.Column(
-#         db.Text,   nullable=False, unique=True,
-#     )
-#     ## create method to parse and add missing ingredients?
-
-# class Recipe_ingredient(db.Model):
-#     """Recipe ingredient set with quantities"""
-    
-#     __tablename__ = 'recipe_ingredients'
-#     id = db.Column(
-#         db.Integer, primary_key=True
-#     )
-
-#     recipe_id = db.Column(db.Integer,  db.ForeignKey("recipes.id"))
-
-#     ingredient_id=db.Column(db.Integer, db.ForeignKey("ingredients.id"))
-
-#     unit = db.Column(db.Text, nullable = False)
-#     quantity = db.Column(db.Integer, nullable=False)
-
-    ## create method to parse and add recipe_ingredient?
-    
-
