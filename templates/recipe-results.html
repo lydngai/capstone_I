@@ -2,7 +2,9 @@
 <h1>Recipe search results:</h1>
 <div class="container mb-5 recipe-cards">
   <div class="row">
-    {% for item in resp.results %}
+    {% if resp.results|length==0 %}
+    <div>No results match your search criteria, please try something again</div>
+    {% endif %} {% for item in resp.results %}
     <!-- cards -->
     <div class="col-sm-6 col-md-4 m-2">
       <div class="card">

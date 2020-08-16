@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Edit Notes</h1>
+<div class="container">
+  <form method="POST" action="/recipe/edit/{{rec_id}}">
+    {{ form.hidden_tag() }}
+    <!--  -->
+    {% for field in form if field.widget.input_type != 'hidden' %}
+    <!--  -->
+    {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+    <!--  -->
+    {{field.label}} {{field(class="form-control")}}
+    <!--  -->
+    {% endfor %}
+
+    <button class="btn btn-lg btn-block m-2">
+      Update note
+    </button>
+  </form>
+</div>
+{% endblock %}

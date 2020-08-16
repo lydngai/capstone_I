@@ -13,7 +13,7 @@
         />
         <div class="card-body">
           <h5 class="card-title">{{item.name}}</h5>
-
+          <p><b>Notes:</b> {{item.notes}}</p>
           <a href="/recipe/edit/{{item.id}}" class="btn m-1">Edit Notes</a>
           <form method="GET" action="/unsave_recipe/{{item.id}}">
             <button class="btn remove-recipe m-1" data-id="{{item.id}}">

@@ -61,8 +61,10 @@ def show_advanced_search():
 
 @app.route('/adv_search_results')
 def adv_search_query():
-    """perform advanced search from advanced search form"""
+    """perform advanced search from advanced search form, include user's allergies if logged in"""
     intolerances=[]
+    if g.user:
+        intolerances=g.user.allergies.split(",")
 
     query=request.args.get('advQuery')
     inc_ing=request.args.get('includeIngredients')
@@ -89,15 +91,32 @@ def adv_search_query():
         payload['diet']=diet
 
     res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={query}&number={num_results}&apiKey={apikey}",params=payload)
+    print("############################################")
+    print("intolerances", intolerances)
+    print(res.url)
+    print(res.json())
+    print("############################################")
+
     response = res.json()
     return render_template("recipe-results.html",resp=response)    
 
 @app.route('/search')
 def search_query():
-    """perform basic search from search bar"""
-    search = request.args.get('search-recipe')
-    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&number={num_results}&apiKey={apikey}") 
+    """perform basic search from search bar, include user's allergens if logged in"""
 
+    search = request.args.get('search-recipe')
+    if not g.user:
+        res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&number={num_results}&apiKey={apikey}") 
+
+    if g.user:
+        intolerances=g.user.allergies.split(",")
+
+        res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&excludeIngredients={intolerances}&number={num_results}&apiKey={apikey}") 
+        print("############################################")
+        print("intolerances", intolerances)
+
+    print(res.url)
+    print("############################################")
     response = res.json()
 
     return render_template("recipe-results.html",resp=response)
@@ -117,8 +136,6 @@ def show_recipe_info(id):
 ###########################
 ### ### User Routes ### ###
 ###########################
-    # import pdb
-    # pdb.set_trace()
 @app.before_request
 def add_user_to_g():
     """If logged in, add curr user to Flask global."""
@@ -250,12 +267,10 @@ def show_saved_recipes():
         flash("Unauthorized access",'danger')
         return redirect('/')
     u_id = g.user.id
-    user=User.query.get_or_404(u_id)
-    recipes = user.recipes
-    # recipe_notes=user.recipe_notes
-    
 
-    return render_template('user/saved-recipes.html', recipes=recipes)
+    rec_notes=db.session.query(Recipe.name,Recipe.image_url, Recipe.id, User_Recipe.notes).join(User_Recipe).filter(User_Recipe.user_id==u_id)    
+
+    return render_template('user/saved-recipes.html', recipes=rec_notes)
 
 @app.route('/save_to_recipebox/<int:rec_id>')
 def save_user_recipe(rec_id):
@@ -306,9 +321,10 @@ def edit_recipe_notes(rec_id):
     if form.validate_on_submit():
         user_note.notes=form.notes.data
         db.session.commit()
+        flash("Note updated!","success")
         return redirect('/user/recipes')
 
-    return render_template("edit-note.html",form=form)
+    return render_template("edit-note.html",rec_id=rec_id,form=form)
 
 
 def add_recipe_to_database(rec_id):
