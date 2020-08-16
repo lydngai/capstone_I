@@ -7,11 +7,21 @@
     </div>
     <div class="col">
       {% if g.user %}
+      <!--  -->
+      {% if recipe.id in g.user_recipes %}
+      <form method="GET" action="/unsave_recipe/{{recipe.id}}">
+        <button class="btn remove-recipe m-1">
+          Unsave recipe
+        </button>
+      </form>
+      {% else %}
       <form method="GET" action="/save_to_recipebox/{{recipe.id}}">
-        <button class="btn add-recipe m-1" data-id="{{recipe.id}}">
+        <button class="btn add-recipe m-1">
           Save recipe
         </button>
       </form>
+      {% endif %} 
+      <!--  -->
       {% endif %}
     </div>
   </div>

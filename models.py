@@ -102,3 +102,4 @@ class User_Recipe(db.Model):
     recipe_id=db.Column(db.Integer, db.ForeignKey("recipes.id"), primary_key=True)
 
     notes = db.Column(db.Text)
+    

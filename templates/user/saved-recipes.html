@@ -1,28 +1,24 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Saved recipes</h1>
 <div class="container recipe-cards">
-  <div class="row">
+  <div class="card-columns">
     {% for item in recipes %}
     <!-- cards -->
-    <div class="col-sm-6 col-md-4 saved-card">
-      <div class="card">
-        <img
-          class="card-img-top"
-          src="{{item.image_url}}"
-          alt="{{item.name}}"
-        />
-        <div class="card-body">
-          <h5 class="card-title">{{item.name}}</h5>
-          <p><b>Notes:</b> {{item.notes}}</p>
+    <div class="card saved-card">
+      <img class="card-img-top" src="{{item.image_url}}" alt="{{item.name}}" />
+      <div class="card-body">
+        <h5 class="card-title">{{item.name}}</h5>
+        <p>
           <a href="/recipe/edit/{{item.id}}" class="btn btn-sm m-1"
-            >Edit Notes</a
-          >
-          <form method="GET" action="/unsave_recipe/{{item.id}}">
-            <button class="btn btn-sm remove-recipe m-1" data-id="{{item.id}}">
-              Remove recipe
-            </button>
-          </form>
-        </div>
+            ><i class="fas fa-edit"></i></a
+          ><b>Notes:</b> {{item.notes}}
+        </p>
+
+        <form method="GET" action="/unsave_recipe/{{item.id}}">
+          <button class="btn btn-sm remove-recipe m-1" data-id="{{item.id}}">
+            Remove recipe
+          </button>
+        </form>
       </div>
     </div>
     {% endfor %}

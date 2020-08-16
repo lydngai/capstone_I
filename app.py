@@ -114,7 +114,7 @@ def search_query():
         res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&excludeIngredients={intolerances}&number={num_results}&apiKey={apikey}") 
         
     response = res.json()
-
+    
     return render_template("recipe-results.html",resp=response)
 
 @app.route('/recipe/<int:id>')
@@ -123,6 +123,7 @@ def show_recipe_info(id):
 
     res = requests.get(f"{API_BASE_URL}/recipes/{id}/information?apiKey={apikey}")
     response = res.json()
+    
     sim = requests.get(f"{API_BASE_URL}/recipes/{id}/similar?apiKey={apikey}&number={num_results}")
     similar = sim.json()
 
@@ -138,9 +139,11 @@ def add_user_to_g():
 
     if CURR_USER in session:
         g.user = User.query.get(session[CURR_USER])
+        g.user_recipes = [item.recipe_id for item in User.query.get(session[CURR_USER]).recipe_notes]
 
     else:
         g.user = None
+        g.user_recipes= None
 
 
 def log_in(user):

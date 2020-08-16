@@ -1,9 +1,8 @@
-
 $(".recipe-cards").on("click", ".add-recipe", async function () {
   const rec_id = $(this).data("id");
   // save recipe to db
   // ADD ASYNC
-  console.log(rec_id);
+
   // let res = await saveRecipe(rec_id);
   // console.log(res);
   $(this).text("Unsave recipe");
@@ -20,7 +19,6 @@ $(".recipe-cards").on("click", ".remove-recipe", () => {
 });
 
 $(".recipe-cards").on("click", ".unsave-recipe", function () {
-  const id = $(this).data("id");
   $(this).text("Save recipe");
   $(this).removeClass("remove-recipe");
   $(this).addClass("add-recipe");

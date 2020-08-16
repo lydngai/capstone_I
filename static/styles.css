@@ -15,10 +15,11 @@ body {
 }
 
 h1 {
-  margin: 1rem;
+  margin: 1.5rem;
 }
 .content {
   min-height: calc(100vh - 80px);
+  padding: 1rem 3rem;
 }
 
 .form-control {
@@ -91,6 +92,15 @@ footer {
   font-weight: bold;
 }
 
+.navbar-toggler-icon {
+  color: var(--s-dark);
+}
+
+.navbar-toggler-icon:active,
+.navbar-toggler-icon:hover {
+  border: 2px solid var(--s-dark);
+}
+
 .navbar a:hover {
   background-color: var(--p-light);
 }
@@ -159,6 +169,25 @@ ul.nav.navbar-nav li {
   border: 1px solid var(--p-light);
 }
 
+.fade {
+  position: relative;
+  height: 3.1em;
+}
+
+.fade:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 70%;
+  height: 1em;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 1) 50%
+  );
+}
 /* ===================== User profile */
 /* 
 .join-message {
