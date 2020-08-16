@@ -1,55 +1,98 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container">
-  <h2>{{recipe.title}}</h2>
+<div class="container mb-4">
   <img src="{{recipe.image}}" alt="{{recipe.title}}" />
-  <div>
-    <a href="{{recipe.sourceUrl}}">See the original at {{recipe.sourceName}}</a>
+  <div class="row">
+    <div class="col">
+      <h2>{{recipe.title}}</h2>
+    </div>
+    <div class="col">
+      {% if g.user %}
+      <form method="GET" action="/save_to_recipebox/{{recipe.id}}">
+        <button class="btn add-recipe m-1" data-id="{{recipe.id}}">
+          Save recipe
+        </button>
+      </form>
+      {% endif %}
+    </div>
   </div>
-  <div>servings: {{recipe.servings}}</div>
-  <div>Ready in: {{recipe.readyInMinutes}} minutes</div>
-  <div>
-    Good for: {% for item in recipe.dishTypes %} {{item}} {% endfor %}
-  </div>
-  <h3>Ingredients</h3>
-  <ul>
-    {% for item in recipe.extendedIngredients %}
-    <li>
-      {{item.original}}
-    </li>
-    {% endfor %}
-  </ul>
-
-  <a href="#" class="btn btn-secondary">Add to meal plan</a>
-</div>
-
-<div class="container">
-  <h3>Similar Recipe Ideas:</h3>
-  <div class="container recipe-cards">
-    <div class="row">
-      {% for recipe in similar %}
-      <div class="card col-sm-4 col-md-3 m-2">
-        <div class="card-body">
-          <h6 class="card-title">{{recipe.title}}</h6>
-
-          <p class="card-text">
-            <a href="{{recipe.sourceUrl}}">See the original </a>
-          </p>
-          <a href="/recipe/{{recipe.id}}" class="btn m-1"
-            >Get more information</a
-          >
-          {% if g.user %}
-          <a
-            href="#"
-            class="btn btn-secondary add-recipe m-1"
-            data-id="{{recipe.id}}"
-            >Save recipe</a
-          >
-          {% endif %}
-        </div>
-      </div>
-
+  <div class="info-box container p-2">
+    <div>
+      <a href="{{recipe.sourceUrl}}"
+        >See the original at {{recipe.sourceName}}</a
+      >
+    </div>
+    <div>Servings: {{recipe.servings}}</div>
+    <div>
+      Ready in: {% if recipe.readyInMinutes < 60 %} {{recipe.readyInMinutes}}
+      min {% else %} {{ recipe.readyInMinutes // 60 }} hr {% if
+      recipe.readyInMinutes % 60 %} {{ recipe.readyInMinutes % 60 }} min {%
+      endif %} {% endif %}
+    </div>
+    <div>
+      Good for: {% for item in recipe.dishTypes %}
+      <span class="badge badge-info text-capitalize">{{item}}</span>
       {% endfor %}
     </div>
   </div>
+
+  <div class="row pt-3">
+    <div class="col-12 col-md-4">
+      <h3>Ingredients</h3>
+      <ul>
+        {% for item in recipe.extendedIngredients %}
+        <li>
+          {{item.original}}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="col-12 col-md-8">
+      {% if recipe.analyzedInstructions %}
+      <h3>Instructions</h3>
+      <ol>
+        {% for item in recipe.analyzedInstructions[0]['steps'] %}
+        <li>{{item.step}}</li>
+        {% endfor %}
+      </ol>
+      {% endif %}
+    </div>
+  </div>
 </div>
+
+<div class="container recipe-cards similar">
+  <h4 class="pt-4 m-2 text-center">Similar Recipe Ideas:</h4>
+  <div class="card-deck mb-4">
+    {% for recipe in similar %}
+    <div class="card p-3">
+      <div class="row no-gutters">
+        {% if g.user %}
+        <div class="col-2 pt-2">
+          <a
+            href="#"
+            class="add-recipe text-info"
+            data-id="{{recipe.id}}"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Save to recipe box"
+            ><i class="fas fa-plus-circle" style="font-size: larger;"></i
+          ></a>
+        </div>
+        {% endif %}
+        <div class="col-10">
+          <h5 class="card-title">
+            <a href="/recipe/{{recipe.id}}" class="text-dark"
+              >{{recipe.title}}</a
+            >
+          </h5>
+
+          <a href="{{recipe.sourceUrl}}" class="card-text text-muted small">
+            <i class="fas fa-angle-right"></i> See the original
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
 {% endblock %}

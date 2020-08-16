@@ -112,11 +112,7 @@ def search_query():
         intolerances=g.user.allergies.split(",")
 
         res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&excludeIngredients={intolerances}&number={num_results}&apiKey={apikey}") 
-        print("############################################")
-        print("intolerances", intolerances)
-
-    print(res.url)
-    print("############################################")
+        
     response = res.json()
 
     return render_template("recipe-results.html",resp=response)
@@ -170,7 +166,6 @@ def signup():
                 name=form.name.data,
                 email=form.email.data,
                 password=form.password.data,
-                cooking_for=form.cooking_for.data,
                 allergies=form.allergies.data
             )
             db.session.commit()
@@ -230,7 +225,6 @@ def edit_user_profile():
 
     if form.validate_on_submit():
         user.name=form.name.data
-        user.cooking_for=form.cooking_for.data
         user.allergies = form.allergies.data
         
         db.session.commit()
@@ -315,7 +309,7 @@ def edit_recipe_notes(rec_id):
     # maybe include users id in the route..
     user_id=g.user.id
     user_note = User_Recipe.query.filter(User_Recipe.user_id==user_id, User_Recipe.recipe_id==rec_id).first()
-    
+    recipe=Recipe.query.get_or_404(rec_id)
     form = RecipeNoteForm(obj=user_note)
 
     if form.validate_on_submit():
@@ -324,7 +318,7 @@ def edit_recipe_notes(rec_id):
         flash("Note updated!","success")
         return redirect('/user/recipes')
 
-    return render_template("edit-note.html",rec_id=rec_id,form=form)
+    return render_template("edit-note.html",form=form, recipe=recipe)
 
 
 def add_recipe_to_database(rec_id):

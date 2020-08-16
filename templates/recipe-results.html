@@ -6,17 +6,19 @@
     <div>No results match your search criteria, please try something again</div>
     {% endif %} {% for item in resp.results %}
     <!-- cards -->
-    <div class="col-sm-6 col-md-4 m-2">
+    <div class="col-sm-6 col-md-4">
       <div class="card">
         <img class="card-img-top" src="{{item.image}}" alt="{{item.title}}" />
         <div class="card-body">
-          <h5 class="card-header">{{item.title}}</h5>
+          <h5 class="card-title">{{item.title}}</h5>
 
-          <a href="/recipe/{{item.id}}" class="btn m-1">Get more information</a>
+          <a href="/recipe/{{item.id}}" class="btn btn-sm m-1"
+            >Get more information</a
+          >
           {% if g.user %}
           <form method="GET" action="/save_to_recipebox/{{item.id}}">
             <button
-              class="btn btn-secondary add-recipe m-1"
+              class="btn btn-secondary btn-sm add-recipe m-1"
               data-id="{{item.id}}"
             >
               Save recipe

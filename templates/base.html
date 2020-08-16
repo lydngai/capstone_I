@@ -30,7 +30,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-md navbar-light justify-content-between">
+    <nav class="navbar navbar-expand-md justify-content-between">
       <a class="navbar-brand" href="/">Recipe Box</a>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
@@ -47,17 +47,15 @@
             ></a>
           </li>
           {% else %}
+
           <li class="nav-item">
-            <a class="nav-link log-out-btn" href="/user/logout">Log Out</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/user/recipes"
-              >Saved recipes
-              <span class="badge badge-info" id="recipe-count">New</span></a
-            >
+            <a class="nav-link" href="/user/recipes">Saved recipes </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/user/profile">Profile <Inp></Inp></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link log-out-btn" href="/user/logout">Log Out</a>
           </li>
           {% endif %}
         </ul>
@@ -79,12 +77,13 @@
       </form>
     </nav>
 
-    <div class="container">
+    <div class="container content">
       {% for category, message in get_flashed_messages(with_categories=True) %}
-      <div class="alert alert-{{ category }}">{{ message }}</div>
+      <div class="alert alert-{{ category }} m-1">{{ message }}</div>
       {% endfor %} {% block content %} {% endblock %}
     </div>
-    <footer>
+
+    <footer class="font-small">
       <div class="text-center py-1">
         Powered by
         <a href="https://spoonacular.com/food-api">

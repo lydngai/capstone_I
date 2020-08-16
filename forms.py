@@ -8,7 +8,7 @@ class UserAddForm(FlaskForm):
     email=StringField('E-mail', validators=[DataRequired()])
     
     password=PasswordField('Password',validators=[DataRequired(), Length(min=6)])
-    cooking_for=IntegerField('Cooking for', default=1)
+    
     allergies=StringField("Allergens/Intolerances")
 
 class UserSignInForm(FlaskForm):
@@ -21,7 +21,7 @@ class UserEditForm(FlaskForm):
     """Edit user form"""
     name=StringField('Name', validators=[DataRequired()])
     
-    cooking_for=IntegerField('Cooking for', default=1)
+    
     allergies=StringField("Allergens/Intolerances")
 
 class RecipeNoteForm(FlaskForm):

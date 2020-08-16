@@ -10,7 +10,15 @@
 }
 
 body {
-  background-color: #f8f0ed;
+  /* background-color: #f8f0ed; */
+  background-color: white;
+}
+
+h1 {
+  margin: 1rem;
+}
+.content {
+  min-height: calc(100vh - 80px);
 }
 
 .form-control {
@@ -33,10 +41,6 @@ body {
   color: white;
 }
 
-/* input:focus {
-  border-color: var(--s-dark);
-} */
-
 input[type="text"]:focus,
 input[type="number"]:focus,
 select:focus,
@@ -47,34 +51,33 @@ textarea:focus {
   border: 1px solid var(--s-dark);
 }
 
+/* ======================= Footer */
 footer {
-  right: 0;
-  bottom: 0;
-  left: 0;
   background-color: var(--p-dark);
   opacity: 0.5;
+  height: 34px;
 }
 
-/* ======================= Footer */
 .footer-logo {
   height: 1.5rem;
 }
 
 /* ======================= Recipes */
 .add-recipe {
-  background-color: #546e7a;
-  color: #ffffff;
+  /* background-color: #546e7a; */
+  /* color: #ffffff; */
 }
 
 .remove-recipe {
   /* background-color: #29434e; */
-  background-color: darkmagenta;
+  background-color: var(--p-dark);
   color: #ffffff;
 }
+
 /* ======================= Nav */
 
 .navbar {
-  background-color: var(--secondary);
+  background-color: var(--s-light);
   height: 46px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
   padding: 8px 3px 5px 8px;
@@ -83,7 +86,7 @@ footer {
 }
 
 .navbar a {
-  color: #000000;
+  color: var(--s-dark);
   font-size: 13px;
   font-weight: bold;
 }
@@ -94,6 +97,7 @@ footer {
 
 .navbar-brand {
   display: flex;
+  font-size: 1rem !important;
   align-items: center;
   columns: #000000;
 }
@@ -141,13 +145,18 @@ ul.nav.navbar-nav li {
   border: 2px solid var(--s-dark);
 }
 /* ======================= adv recipe search */
-.content {
+.xcontent {
   padding: 1rem;
   background-color: var(--s-exlight);
   border-left: 1px solid var(--s-dark);
   border-right: 1px solid var(--s-dark);
   height: 100%;
   padding-bottom: 4rem;
+}
+
+/* ===================== Recipe Info page */
+.info-box {
+  border: 1px solid var(--p-light);
 }
 
 /* ===================== User profile */
@@ -252,7 +261,7 @@ ul.nav.navbar-nav li {
   font-weight: bold;
   padding-top: 3px;
 } */
-
+/* 
 #sidebar-username {
   margin-top: 30px;
   font-size: 21px;
@@ -269,7 +278,7 @@ ul.nav.navbar-nav li {
 
 .user-location {
   color: #657786;
-}
+} */
 
 /* ==================== User cards on follower/following pages */
 /* 

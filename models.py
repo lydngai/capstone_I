@@ -27,9 +27,6 @@ class User(db.Model):
 
     password = db.Column(
         db.Text,   nullable=False)
-
-    cooking_for = db.Column(
-        db.Integer,   nullable=False, default = 1 )
     
     allergies = db.Column(db.Text)
 

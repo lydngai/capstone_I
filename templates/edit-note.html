@@ -1,22 +1,48 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Edit Notes</h1>
 <div class="container">
-  <form method="POST" action="/recipe/edit/{{rec_id}}">
-    {{ form.hidden_tag() }}
-    <!--  -->
-    {% for field in form if field.widget.input_type != 'hidden' %}
-    <!--  -->
-    {% for error in field.errors %}
-    <span class="text-danger">{{ error }}</span>
-    {% endfor %}
-    <!--  -->
-    {{field.label}} {{field(class="form-control")}}
-    <!--  -->
-    {% endfor %}
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <img
+          class="card-img-top"
+          src="{{recipe.image_url}}"
+          alt="{{recipe.title}}"
+        />
+        <div class="card-body">
+          <h6 class="card-title">{{recipe.title}}</h6>
+          <p class="card-text">
+            <a href="{{recipe.sourceUrl}}">See the original </a> <br />
+            <b>Ready In:</b>
+            {% if recipe.ready_in_minutes < 60 %} {{recipe.ready_in_minutes}}
+            min {% else %} {{ recipe.ready_in_minutes // 60 }} hr {% if
+            recipe.ready_in_minutes % 60 %} {{ recipe.ready_in_minutes % 60 }}
+            min {% endif %} {% endif %}
+            <br />
+            <b>Servings: </b> {{recipe.servings}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <form method="POST" action="/recipe/edit/{{recipe.id}}">
+        {{ form.hidden_tag() }}
+        <!--  -->
+        {% for field in form if field.widget.input_type != 'hidden' %}
+        <!--  -->
+        {% for error in field.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+        <!--  -->
+        {{field.label}} {{field(class="form-control")}}
+        <!--  -->
+        {% endfor %}
 
-    <button class="btn btn-lg btn-block m-2">
-      Update note
-    </button>
-  </form>
+        <button class="btn btn-lg btn-block m-2">
+          Update note
+        </button>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock %}
