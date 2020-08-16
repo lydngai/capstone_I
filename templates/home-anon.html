@@ -1,8 +1,19 @@
 {% extends 'base.html' %} {% block content %}
-<div class="home-hero">
-  <h1>Meal Planner</h1>
-  <h4>New here?</h4>
-  <p>Sign up now to start streamlining your meal planning and grocery trips!</p>
-  <a href="/user/signup" class="btn ">Sign up</a>
+
+<h1>Recipe Box</h1>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h4>New here?</h4>
+      <p>Sign up to discover new recipes and take notes!</p>
+      <a href="/user/signup" class="btn btn-outline-info teal-btn">Sign up</a>
+    </div>
+    <div class="col">
+      <h4>Have an account?</h4>
+      <p>Let's cook! <i class="fas fa-utensils"></i></p>
+      <a href="/user/login" class="btn">Log in</a>
+    </div>
+  </div>
 </div>
+
 {% endblock %}

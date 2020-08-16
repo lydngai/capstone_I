@@ -5,11 +5,14 @@
     {% for item in recipes %}
     <!-- cards -->
     <div class="card saved-card">
+      <a href="/recipe/{{item.id}}" class="text-dark"
+          >
       <img class="card-img-top" src="{{item.image_url}}" alt="{{item.name}}" />
       <div class="card-body">
-        <h5 class="card-title">{{item.name}}</h5>
+        <h5 class="card-title">{{item.name}}</h5></a
+        >
         <p>
-          <a href="/recipe/edit/{{item.id}}" class="btn btn-sm m-1"
+          <a href="/recipe/edit/{{item.id}}" class="btn btn-sm m-1 edit-note-btn"
             ><i class="fas fa-edit"></i></a
           ><b>Notes:</b> {{item.notes}}
         </p>

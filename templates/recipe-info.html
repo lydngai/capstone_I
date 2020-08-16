@@ -3,7 +3,7 @@
   <img src="{{recipe.image}}" alt="{{recipe.title}}" />
   <div class="row">
     <div class="col">
-      <h2>{{recipe.title}}</h2>
+      <h2 class="p-1 m-2">{{recipe.title}}</h2>
     </div>
     <div class="col">
       {% if g.user %}
@@ -20,7 +20,7 @@
           Save recipe
         </button>
       </form>
-      {% endif %} 
+      {% endif %}
       <!--  -->
       {% endif %}
     </div>
@@ -70,7 +70,7 @@
 </div>
 
 <div class="container recipe-cards similar">
-  <h4 class="pt-4 m-2 text-center">Similar Recipe Ideas:</h4>
+  <h4 class="pt-4 m-2 text-center">Similar Recipes:</h4>
   <div class="card-deck mb-4">
     {% for recipe in similar %}
     <div class="card p-3">

@@ -1,7 +1,7 @@
 /* ====================== General */
 :root {
   --primary: #7fa7ba;
-  --p-light: #b0d8ec;
+  --p-light: #bee1f3;
   --p-dark: #50788a;
   --secondary: #ffab91;
   --s-light: #ffddc1;
@@ -55,7 +55,7 @@ textarea:focus {
 /* ======================= Footer */
 footer {
   background-color: var(--p-dark);
-  opacity: 0.5;
+  opacity: 0.6;
   height: 34px;
 }
 
@@ -64,15 +64,15 @@ footer {
 }
 
 /* ======================= Recipes */
-.add-recipe {
-  /* background-color: #546e7a; */
-  /* color: #ffffff; */
-}
-
 .remove-recipe {
-  /* background-color: #29434e; */
   background-color: var(--p-dark);
   color: #ffffff;
+}
+.remove-recipe:hover,
+.remove-recipe:focus,
+.remove-recipe:active {
+  box-shadow: 0 5px 15px var(--p-dark);
+  color: white;
 }
 
 /* ======================= Nav */
@@ -189,343 +189,43 @@ ul.nav.navbar-nav li {
   );
 }
 /* ===================== User profile */
-/* 
-.join-message {
-  margin-top: 100px;
+.edit-profile-btn {
+  background-color: var(--p-dark);
+  color: white;
 }
 
-#profile-image,
-#profile-avatar {
-  border-radius: 100%;
-  display: block;
-  margin-left: -15px;
+.delete-profile-btn {
+  background-color: #9e3e20;
+  color: white;
 }
 
-#profile-image {
-  margin: 0 auto 15px;
-  width: 100%;
+.edit-note-btn {
+  background-color: white;
+  color: var(--secondary);
+  font-size: larger;
 }
 
-#profile-avatar {
-  width: 200px;
-  height: 200px;
-  border: 5px solid #fff;
-  margin-top: -120px;
-  z-index: 1;
-  position: relative;
-  box-shadow: 0 1px 1px rgba(136, 153, 166, 0.15);
+.edit-note-btn:active,
+.edit-note-btn:hover {
+  color: var(--s-dark);
 }
 
-.timeline-image {
-  border-radius: 48px;
-  height: 48px;
-  width: 48px;
-  margin-top: 2px;
+.teal-btn {
+  background-color: white;
+  color: rgb(1, 148, 148);
 }
 
-.message-area,
-.timeline-image {
-  display: inline-block;
+.teal-btn:active,
+.teal-btn:hover {
+  box-shadow: 0 5px 15px rgb(1, 148, 148);
 }
 
-.message-area {
-  margin-left: 10px;
+.teal-fill-btn {
+  background-color: rgb(1, 148, 148);
+  color: white;
 }
 
-#warbler-hero {
-  height: 360px;
-  margin-top: -16px;
-  opacity: 0.7;
-  background-size: cover;
-  background-position: top center;
+.teal-btn:active,
+.teal-btn:hover {
+  box-shadow: 0 5px 15px rgb(1, 148, 148);
 }
-
-.full-width {
-  width: 100vw;
-  margin: 0 -50vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-}
-
-.row.full-width {
-  background-color: #fff;
-  margin-top: -80px;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.25);
-  height: 60px;
-  align-items: center;
-}
-
-.user-stats > .ml-auto {
-  display: flex;
-  align-items: center;
-}
-
-.user-stats > .ml-auto .btn {
-  min-width: 105px;
-  padding: 6px 16px;
-}
-
-.stat {
-  text-align: center;
-  height: 60px;
-  box-sizing: border-box;
-  padding: 14px 15px 7px;
-  line-height: 1;
-}
-
-.stat > .small {
-  color: #657786;
-  font-weight: bold;
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  margin-bottom: 0;
-}
-
-.stat > .small + h4 {
-  font-size: 18px;
-  font-weight: bold;
-  padding-top: 3px;
-} */
-/* 
-#sidebar-username {
-  margin-top: 30px;
-  font-size: 21px;
-  font-weight: bold;
-  line-height: 28px;
-  word-wrap: break-word;
-}
-
-@media (max-width: 768px) {
-  .full-width .user-stats .stat {
-    display: none;
-  }
-}
-
-.user-location {
-  color: #657786;
-} */
-
-/* ==================== User cards on follower/following pages */
-/* 
-.user-card {
-  width: 100%;
-  padding-bottom: 100%;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  position: relative;
-  background: white;
-  margin-top: 20px;
-}
-
-.user-card > div {
-  position: absolute;
-  background: white;
-}
-
-.user-card form {
-  margin-top: 5px;
-  margin-right: 5px;
-}
-
-.user-card form .btn {
-  min-width: 89px;
-  padding: 4px 12px;
-  font-size: 12px;
-}
-
-.card-hero {
-  width: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.card-image {
-  border: 3px solid #fff;
-  border-radius: 70px;
-  height: 70px;
-  width: 70px;
-  margin-top: -35px;
-  position: relative;
-  z-index: 1;
-}
-
-.card-link {
-  display: inline-block;
-  margin-left: 10px;
-}
-
-.card-link > p {
-  position: absolute;
-}
-
-.user-cards {
-  margin-bottom: 20px;
-}
-
-.card-inner {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.image-wrapper {
-  width: 100%;
-  padding-bottom: 36%;
-  position: relative;
-  overflow: hidden;
-}
-
-.card-contents {
-  display: flex;
-  justify-content: space-between;
-}
-
-p.card-bio {
-  margin: 2em 10px 0;
-} */
-
-/* ============================ Signed out home */
-/* 
-.home-hero {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  width: 100vw;
-  left: 0;
-  z-index: -1;
-  background-image: url("/static/images/signed-out-home.jpg");
-  background-size: cover;
-  background-position: center center;
-  color: #fff;
-  text-align: center;
-  padding: 1rem;
-  text-shadow: 0 0 8px #66757f;
-}
-
-.home-hero .btn {
-  text-shadow: none;
-  position: relative;
-  z-index: 1;
-  width: 150px;
-}
-
-.home-hero h1 {
-  margin-bottom: 4rem;
-}
-
-.home-hero:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.3);
-}
- */
-/* ============================== Signed in Home */
-
-/* #home-aside > .user-card {
-  margin-top: 0;
-  overflow: hidden;
-}
-
-#home-aside > .user-card .card-link {
-  display: flex;
-}
-
-#home-aside > .user-card .card-link > p {
-  margin-left: 0.5rem;
-  margin-top: 0.25rem;
-}
-
-#home-aside > .user-card .stat {
-  padding: 14px 0 7px;
-}
-
-#home-aside > .user-card .user-stats {
-  display: flex;
-  justify-content: space-around;
-}
-
-#home-aside > .user-card > div {
-  width: 100%;
-}
-
-#home-aside .card-link > p {
-  position: relative;
-}
-
-#home-aside .stat h4 {
-  text-align: left;
-} */
-
-/* ========================== Signup/Login */
-
-/* #user_form input.form-control {
-  font-size: 18px;
-  font-weight: bold;
-  padding: 12px;
-} */
-
-/* =========================== Edit Page */
-
-/* .edit-btn-area {
-  display: flex;
-  justify-content: space-between;
-}
-
-.edit-btn-area > .btn {
-  width: 48%;
-}
- */
-/* =========================== Message Show page */
-
-/* .bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #62676c;
-}
-
-#messages.no-hover .message-area {
-  width: 100%;
-}
-
-#messages.no-hover .message-heading {
-  display: flex;
-  justify-content: space-between;
-  height: 47px;
-  margin-top: 3px;
-}
-
-#messages.no-hover .message-heading .btn {
-  min-width: 105px;
-}
-
-.messages-like {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  z-index: 1;
-}
-
-.single-message {
-  font-size: 27px;
-  line-height: 32px;
-  letter-spacing: 0.01em;
-  margin-bottom: 10px;
-} */
