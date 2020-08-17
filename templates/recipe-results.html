@@ -1,4 +1,13 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+<!--  -->
+
+{% macro page_num(num, class) -%}
+<li class="page-item {{class}}">
+  <form action="/search/{{num}}" method="GET">
+    <button class="page-link">{{num}}</button>
+  </form>
+</li>
+{%- endmacro %} {% block content %}
 <h1>Recipe search results:</h1>
 <div class="container mb-5 recipe-cards">
   <div class="row">
@@ -25,9 +34,7 @@
           </form>
           {% else %}
           <form method="GET" action="/save_to_recipebox/{{item.id}}">
-            <button
-              class="btn btn-secondary btn-sm add-recipe btn-info teal-fill-btn m-1"
-            >
+            <button class="btn btn-sm add-recipe teal-btn m-1">
               Save recipe
             </button>
           </form>
@@ -39,8 +46,64 @@
   </div>
 </div>
 
-<!-- add pagination buttons here -->
-<!-- <a href=""><i class="fa fa-chevron-right" aria-hidden="true"></i> </a>
-<a href=""><i class="fa fa-chevron-left" aria-hidden="true"></i> </a> -->
+<nav aria-label="Recipe search results">
+  <ul class="pagination justify-content-center">
+    {% if cur_pg and cur_pg> 1 %}
+    <li class="page-item">
+      <form action="/search/{{cur_pg -1}}" method="GET">
+        <button class="page-link" aria-label="Previous">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          <span class="sr-only">Previous</span>
+        </button>
+      </form>
+    </li>
+    {{ page_num(num=cur_pg - 1) }}
+    <!--  -->
+    {{ page_num(num=cur_pg, class="active") }}
+    <!--  -->
 
+    {% if resp.results|length < 6 %}
+    <li class="page-item disabled">
+      <a class="page-link" href="" aria-label="Next">
+        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    {% else %} {{ page_num(num=cur_pg+1) }}
+    <li class="page-item">
+      <form action="/search/{{cur_pg +1}}" method="GET">
+        <button class="page-link" aria-label="Next">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <span class="sr-only">Next</span>
+        </button>
+      </form>
+    </li>
+
+    {% endif %} {% else %}
+    <li class="page-item disabled">
+      <a class="page-link" href="" aria-label="Previous">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    {{ page_num(num=1, class="active") }} {% if resp.results|length >5 %} {{
+    page_num(num=2) }} {{ page_num(num=3) }}
+    <!--  -->
+    <li class="page-item">
+      <form action="/search/2" method="GET">
+        <button class="page-link" aria-label="Next">
+          <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          <span class="sr-only">Next</span>
+        </button>
+      </form>
+    </li>
+    {% endif %} {% endif %}
+  </ul>
+</nav>
 {% endblock %}
+
+<!-- 
+  dont show next page and disable the arrow
+{% if resp.results|length >5 %}
+    
+{% endif %}  -->

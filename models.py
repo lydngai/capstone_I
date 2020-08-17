@@ -37,7 +37,7 @@ class User(db.Model):
         return f"<User #{self.id}: {self.email}, {self.name}>"  
 
     @classmethod
-    def signup(cls, name, email, password, cooking_for,allergies):
+    def signup(cls, name, email, password,allergies):
         """Sign up user.
         Hashes password and adds user to system.
         """
@@ -47,7 +47,6 @@ class User(db.Model):
             name=name,
             email=email,
             password=hashed_pwd,
-            cooking_for=cooking_for,
             allergies=allergies
         )
         db.session.add(user)

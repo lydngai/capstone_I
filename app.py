@@ -15,34 +15,27 @@ import requests
 from config import apikey
 
 app = Flask(__name__)
+# if __name__=="__main__":
+    # app.run(debug=False, use_reloader=False)
 CORS(app)
 # Bootstrap(app)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = (
-#     os.environ.get('DATABASE_URL', 'postgres:///recipebox'))
-
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///recipebox"
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    os.environ.get('DATABASE_URL', 'postgres:///recipebox'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
-toolbar = DebugToolbarExtension(app)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's no secret")
+# toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
 API_BASE_URL=f"https://api.spoonacular.com/"
 CURR_USER='curr_user'
 allergens=["Dairy","Egg","Gluten","Grain","Peanut","Seafood","Sesame","Shellfish","Soy","Sulfite","Tree Nut","Wheat"]
-num_results=3 # change results per page
+num_results=6 # change results per page
 
-############fake migrating
-# u = User(name="lu", email="lu@gmail.com", password='asdf')
-# rec = Recipe(name="brownies",source_url="https://smittenkitchen.com/", servings=12, ready_in_minutes=45)
-# db.session.add_all([u,rec])
-# db.session.commit()
-
-###################
 # set up routes to get recipes 
 @app.route('/') 
 def show_landing_page():
@@ -59,8 +52,8 @@ def show_advanced_search():
 
     return render_template("recipe-search.html",intolerances=allergens, diets=diets)
 
-@app.route('/adv_search_results')
-def adv_search_query():
+@app.route('/adv_search_results/<int:pg>')
+def adv_search_query(pg):
     """perform advanced search from advanced search form, include user's allergies if logged in"""
     intolerances=[]
     if g.user:
@@ -91,31 +84,40 @@ def adv_search_query():
         payload['diet']=diet
 
     res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={query}&number={num_results}&apiKey={apikey}",params=payload)
-    print("############################################")
-    print("intolerances", intolerances)
-    print(res.url)
-    print(res.json())
-    print("############################################")
-
     response = res.json()
+
     return render_template("recipe-results.html",resp=response)    
 
 @app.route('/search')
-def search_query():
-    """perform basic search from search bar, include user's allergens if logged in"""
+def recipe_search():
+    """Perform basic search from search bar, include user's allergens if logged in. Store search string in g obj for paged searches"""
 
     search = request.args.get('search-recipe')
     if not g.user:
-        res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&number={num_results}&apiKey={apikey}") 
+        query = f"{API_BASE_URL}/recipes/complexSearch?query={search}&number={num_results}&apiKey={apikey}"
+        session['query'] = query
+        res = requests.get(query) 
 
     if g.user:
         intolerances=g.user.allergies.split(",")
 
-        res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={search}&excludeIngredients={intolerances}&number={num_results}&apiKey={apikey}") 
+        query = f"{API_BASE_URL}/recipes/complexSearch?query={search}&excludeIngredients={intolerances}&number={num_results}&apiKey={apikey}"
+        session['query'] = query
+        res = requests.get(query) 
         
     response = res.json()
     
     return render_template("recipe-results.html",resp=response)
+
+@app.route('/search/<int:pg>')
+def page_search(pg):
+    query = session['query'] 
+    offset = (pg-1)*num_results
+    res = requests.get(f"{query}&offset={offset}") 
+    response = res.json()
+    cur_pg=pg+1 #not sure yet
+    return render_template("recipe-results.html",resp=response, cur_pg=pg)
+    
 
 @app.route('/recipe/<int:id>')
 def show_recipe_info(id):
@@ -136,7 +138,7 @@ def show_recipe_info(id):
 @app.before_request
 def add_user_to_g():
     """If logged in, add curr user to Flask global."""
-
+    
     if CURR_USER in session:
         g.user = User.query.get(session[CURR_USER])
         g.user_recipes = [item.recipe_id for item in User.query.get(session[CURR_USER]).recipe_notes]

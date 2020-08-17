@@ -3,6 +3,7 @@
   --primary: #7fa7ba;
   --p-light: #bee1f3;
   --p-dark: #50788a;
+  --p-exdark: #395b6b;
   --secondary: #ffab91;
   --s-light: #ffddc1;
   --s-exlight: #fceadc;
@@ -16,6 +17,15 @@ body {
 
 h1 {
   margin: 1.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--p-exdark);
 }
 .content {
   min-height: calc(100vh - 80px);
@@ -44,6 +54,7 @@ h1 {
 
 input[type="text"]:focus,
 input[type="number"]:focus,
+input[type="password"]:focus,
 select:focus,
 textarea:focus {
   box-shadow: 0 0 5px var(--s-dark);
@@ -83,13 +94,13 @@ footer {
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
   padding: 8px 3px 5px 8px;
   position: relative;
+  font-weight: lighter;
   z-index: 9999;
 }
 
 .navbar a {
   color: var(--s-dark);
-  font-size: 13px;
-  font-weight: bold;
+  font-size: 14px;
 }
 
 .navbar-toggler-icon {
@@ -101,15 +112,14 @@ footer {
   border: 2px solid var(--s-dark);
 }
 
-.navbar a:hover {
-  background-color: var(--p-light);
+.nav-link a:hover {
+  background-color: var(--s-exlight);
 }
 
-.navbar-brand {
+.nav-logo {
   display: flex;
-  font-size: 1rem !important;
+  font-size: large !important;
   align-items: center;
-  columns: #000000;
 }
 
 ul.nav.navbar-nav {
@@ -122,13 +132,13 @@ ul.nav.navbar-nav li {
 }
 
 .nav-link:hover {
-  background-color: var(--p-light);
-  color: var(--p-dark);
+  background-color: var(--s-exlight);
+  color: var(--s-dark);
 }
 
 #search.form-control {
   border-radius: 20px;
-  margin-bottom: 0px;
+  /* margin-bottom: 0px; */
   width: 100%;
   font-size: 13px;
   padding-right: 28px;
