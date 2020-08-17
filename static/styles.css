@@ -100,8 +100,9 @@ footer {
   box-shadow: 0 5px 15px var(--p-dark);
   color: var(--p-dark);
   font-weight: bold;
+  background-color: white;
 }
-/* ======================= Nav */
+/* ======================= Navbar */
 
 .navbar {
   background-color: var(--s-light);
@@ -224,22 +225,7 @@ ul.nav.navbar-nav li {
   color: var(--s-dark);
 }
 
-.teal-btn {
-  background-color: white;
-  color: rgb(1, 148, 148);
-}
-
-.teal-btn:active,
-.teal-btn:hover {
-  box-shadow: 0 5px 15px rgb(1, 148, 148);
-}
-
-.teal-fill-btn {
-  background-color: rgb(1, 148, 148);
-  color: white;
-}
-
-.teal-btn:active,
-.teal-btn:hover {
-  box-shadow: 0 5px 15px rgb(1, 148, 148);
+/* ===================== Recipe Results*/
+.page-link {
+  color: var(--p-exdark);
 }
