@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container mb-4">
-  <img src="{{recipe.image}}" alt="{{recipe.title}}" />
+  <img src="{{recipe.image}}" class="mb-2" alt="{{recipe.title}}" />
   <div class="row">
     <div class="col">
       <h2 class="p-1 m-2">{{recipe.title}}</h2>
@@ -10,13 +10,13 @@
       <!--  -->
       {% if recipe.id in g.user_recipes %}
       <form method="GET" action="/unsave_recipe/{{recipe.id}}">
-        <button class="btn remove-recipe m-1">
+        <button class="btn remove-recipe mt-2">
           Unsave recipe
         </button>
       </form>
       {% else %}
       <form method="GET" action="/save_to_recipebox/{{recipe.id}}">
-        <button class="btn add-recipe m-1">
+        <button class="btn add-recipe mt-2">
           Save recipe
         </button>
       </form>
@@ -73,7 +73,7 @@
   <h4 class="pt-4 m-2 text-center">Similar Recipes:</h4>
   <div class="card-deck mb-4">
     {% for recipe in similar %}
-    <div class="card p-3">
+    <div class="card p-2 pl-3">
       <div class="row no-gutters">
         {% if g.user %}
         <div class="col-2 pt-2">

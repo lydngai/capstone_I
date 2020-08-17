@@ -126,7 +126,7 @@ def show_recipe_info(id):
     res = requests.get(f"{API_BASE_URL}/recipes/{id}/information?apiKey={apikey}")
     response = res.json()
     
-    sim = requests.get(f"{API_BASE_URL}/recipes/{id}/similar?apiKey={apikey}&number={num_results}")
+    sim = requests.get(f"{API_BASE_URL}/recipes/{id}/similar?apiKey={apikey}&number=3")
     similar = sim.json()
 
     return render_template("recipe-info.html",recipe=response, similar=similar)

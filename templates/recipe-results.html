@@ -45,6 +45,7 @@
     {% endfor %}
   </div>
 </div>
+{% if resp.results|length>0 %}
 
 <nav aria-label="Recipe search results">
   <ul class="pagination justify-content-center">
@@ -79,15 +80,8 @@
       </form>
     </li>
 
-    {% endif %} {% else %}
-    <li class="page-item disabled">
-      <a class="page-link" href="" aria-label="Previous">
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-        <span class="sr-only">Previous</span>
-      </a>
-    </li>
-    {{ page_num(num=1, class="active") }} {% if resp.results|length >5 %} {{
-    page_num(num=2) }} {{ page_num(num=3) }}
+    {% endif %} {% else %} {{ page_num(num=1, class="active") }} {% if
+    resp.results|length >5 %} {{ page_num(num=2) }} {{ page_num(num=3) }}
     <!--  -->
     <li class="page-item">
       <form action="/search/2" method="GET">
@@ -100,7 +94,7 @@
     {% endif %} {% endif %}
   </ul>
 </nav>
-{% endblock %}
+{% endif %} {% endblock %}
 
 <!-- 
   dont show next page and disable the arrow

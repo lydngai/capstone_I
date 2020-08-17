@@ -76,16 +76,31 @@ footer {
 
 /* ======================= Recipes */
 .remove-recipe {
-  background-color: var(--p-dark);
-  color: #ffffff;
+  color: var(--p-dark);
+  border: 1px solid var(--p-dark);
+  background-color: white;
 }
+
 .remove-recipe:hover,
 .remove-recipe:focus,
 .remove-recipe:active {
   box-shadow: 0 5px 15px var(--p-dark);
-  color: white;
+  color: var(--p-dark);
+  font-weight: bold;
 }
 
+.add-recipe {
+  color: white;
+  background-color: var(--p-dark);
+}
+
+.add-recipe:hover,
+.add-recipe:focus,
+.add-recipe:active {
+  box-shadow: 0 5px 15px var(--p-dark);
+  color: var(--p-dark);
+  font-weight: bold;
+}
 /* ======================= Nav */
 
 .navbar {
@@ -120,6 +135,7 @@ footer {
   display: flex;
   font-size: large !important;
   align-items: center;
+  margin-right: 1.5rem;
 }
 
 ul.nav.navbar-nav {
@@ -177,27 +193,15 @@ ul.nav.navbar-nav li {
 /* ===================== Recipe Info page */
 .info-box {
   border: 1px solid var(--p-light);
+  border-radius: 3px;
+}
+.card-deck {
+  width: 90vw;
+}
+.card-deck > .card {
+  border: 1px solid var(--primary);
 }
 
-.fade {
-  position: relative;
-  height: 3.1em;
-}
-
-.fade:after {
-  content: "";
-  text-align: right;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 70%;
-  height: 1em;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 1) 50%
-  );
-}
 /* ===================== User profile */
 .edit-profile-btn {
   background-color: var(--p-dark);
