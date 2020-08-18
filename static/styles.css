@@ -68,6 +68,7 @@ footer {
   background-color: var(--p-dark);
   opacity: 0.6;
   height: 34px;
+  color: var(--primary);
 }
 
 .footer-logo {
