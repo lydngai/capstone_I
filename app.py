@@ -1,9 +1,7 @@
 import os
 from flask import Flask, render_template, jsonify, request, redirect, session, g, abort, flash
-from flask_debugtoolbar import DebugToolbarExtension
 from flask_cors import CORS
-# from flask_bootstrap import Bootstrap
-# import random
+
 import requests
 from sqlalchemy.exc import IntegrityError
 
@@ -15,19 +13,15 @@ import requests
 from config import apikey
 
 app = Flask(__name__)
-# if __name__=="__main__":
-    # app.run(debug=False, use_reloader=False)
 CORS(app)
-# Bootstrap(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgres:///recipebox'))
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's no secret")
-# toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 
@@ -36,13 +30,16 @@ CURR_USER='curr_user'
 allergens=["Dairy","Egg","Gluten","Grain","Peanut","Seafood","Sesame","Shellfish","Soy","Sulfite","Tree Nut","Wheat"]
 num_results=6 # change results per page
 
-# set up routes to get recipes 
+
+#############################
+### ### Public Routes ### ###
+#############################
 @app.route('/') 
 def show_landing_page():
     """show landing page"""
     if not g.user:
         return render_template("home-anon.html")
-    # may want to change to saved recipes in the future
+
     return redirect("/user/profile")
 
 @app.route('/advanced_search')
@@ -65,7 +62,6 @@ def adv_search_query(pg):
     cooktime=request.args.get('cooktime')
     diet=request.args.get('diet')
     
-    # intolerances=request.args.get('intolerances')
     for item in allergens:
         if request.args.get(f"{item}"):
             intolerances.append(item)
@@ -258,7 +254,10 @@ def delete_user_profile():
 
     return render_template('user/delete-user.html',form=form)
 
-##############user recipes####
+
+############################
+### ### User Recipes ### ###
+############################
 @app.route('/user/recipes')
 def show_saved_recipes():
     """show user's saved recipes"""
@@ -311,7 +310,6 @@ def edit_recipe_notes(rec_id):
         flash("Unauthorized access", 'danger')
         return redirect('/')
     
-    # maybe include users id in the route..
     user_id=g.user.id
     user_note = User_Recipe.query.filter(User_Recipe.user_id==user_id, User_Recipe.recipe_id==rec_id).first()
     recipe=Recipe.query.get_or_404(rec_id)
@@ -327,11 +325,10 @@ def edit_recipe_notes(rec_id):
 
 
 def add_recipe_to_database(rec_id):
-    """Check to see if recipe exists in database, add recipe to 
-    database if missing. Return Recipe instance."""
+    """Check to see if recipe exists in database. If recipe is missing, make 
+    api call to add recipe to database. Return Recipe instance."""
 
     if Recipe.query.filter(Recipe.id == rec_id).first() is None:
-        # make api call to get recipe from spoonacular
         res = requests.get(f"{API_BASE_URL}/recipes/{rec_id}/information?apiKey={apikey}")
         rec = res.json()
         recipe = Recipe(id=rec_id, name=rec["title"], image_url= rec["image"], source_url= rec["sourceUrl"], servings=rec["servings"] , ready_in_minutes= rec["readyInMinutes"])
