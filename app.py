@@ -10,14 +10,13 @@ from forms import UserAddForm, UserSignInForm, UserEditForm,RecipeNoteForm
 from models import db, connect_db, User, Recipe, User_Recipe
 
 import requests
-from config import apikey
+from config import APIKEY
 
 app = Flask(__name__)
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgres:///recipebox'))
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
@@ -79,7 +78,7 @@ def adv_search_query(pg):
     if diet:
         payload['diet']=diet
 
-    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={query}&number={num_results}&apiKey={apikey}",params=payload)
+    res = requests.get(f"{API_BASE_URL}/recipes/complexSearch?query={query}&number={num_results}&apiKey={APIKEY}",params=payload)
     response = res.json()
 
     return render_template("recipe-results.html",resp=response)    
@@ -90,14 +89,14 @@ def recipe_search():
 
     search = request.args.get('search-recipe')
     if not g.user:
-        query = f"{API_BASE_URL}/recipes/complexSearch?query={search}&number={num_results}&apiKey={apikey}"
+        query = f"{API_BASE_URL}/recipes/complexSearch?query={search}&number={num_results}&apiKey={APIKEY}"
         session['query'] = query
         res = requests.get(query) 
 
     if g.user:
         intolerances=g.user.allergies.split(",")
 
-        query = f"{API_BASE_URL}/recipes/complexSearch?query={search}&excludeIngredients={intolerances}&number={num_results}&apiKey={apikey}"
+        query = f"{API_BASE_URL}/recipes/complexSearch?query={search}&excludeIngredients={intolerances}&number={num_results}&apiKey={APIKEY}"
         session['query'] = query
         res = requests.get(query) 
         
@@ -119,10 +118,10 @@ def page_search(pg):
 def show_recipe_info(id):
     """display detailed recipe information"""
 
-    res = requests.get(f"{API_BASE_URL}/recipes/{id}/information?apiKey={apikey}")
+    res = requests.get(f"{API_BASE_URL}/recipes/{id}/information?apiKey={APIKEY}")
     response = res.json()
     
-    sim = requests.get(f"{API_BASE_URL}/recipes/{id}/similar?apiKey={apikey}&number=3")
+    sim = requests.get(f"{API_BASE_URL}/recipes/{id}/similar?apiKey={APIKEY}&number=3")
     similar = sim.json()
 
     return render_template("recipe-info.html",recipe=response, similar=similar)
@@ -329,7 +328,7 @@ def add_recipe_to_database(rec_id):
     api call to add recipe to database. Return Recipe instance."""
 
     if Recipe.query.filter(Recipe.id == rec_id).first() is None:
-        res = requests.get(f"{API_BASE_URL}/recipes/{rec_id}/information?apiKey={apikey}")
+        res = requests.get(f"{API_BASE_URL}/recipes/{rec_id}/information?apiKey={APIKEY}")
         rec = res.json()
         recipe = Recipe(id=rec_id, name=rec["title"], image_url= rec["image"], source_url= rec["sourceUrl"], servings=rec["servings"] , ready_in_minutes= rec["readyInMinutes"])
         db.session.add(recipe)
