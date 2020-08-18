@@ -74,6 +74,21 @@ footer {
 .footer-logo {
   height: 1.5rem;
 }
+/* ======================= Landing pg*/
+
+.home-pic {
+  max-width: 40vw;
+}
+
+.log-in-pg-btn {
+  background-color: var(--primary);
+  color: white;
+}
+.log-in-pg-btn:hover,
+.log-in-pg-btn:active,
+.log-in-pg-btn:focus {
+  box-shadow: 0 5px 15px var(--p-dark);
+}
 
 /* ======================= Recipes */
 .remove-recipe {
