@@ -70,7 +70,7 @@
 </div>
 
 <div class="container recipe-cards similar">
-  <h4 class="pt-4 pb-2 m-2 text-center">Similar Recipes:</h4>
+  <h4 class="pt-4 m-2 text-center">Similar Recipes:</h4>
   <div class="card-deck mb-4">
     {% for recipe in similar %}
     <div class="card p-2 pl-3">
@@ -78,13 +78,13 @@
         {% if g.user %}
         <div class="col-2 pt-2">
           <a
-            href="#"
-            class="add-recipe text-info"
+            href="/save_to_recipebox/{{recipe.id}}"
+            class="text-info"
             data-id="{{recipe.id}}"
             data-toggle="tooltip"
             data-placement="bottom"
             title="Save to recipe box"
-            ><i class="fas fa-plus-circle" style="font-size: larger;"></i
+            ><i class="fas fa-plus-square"></i
           ></a>
         </div>
         {% endif %}

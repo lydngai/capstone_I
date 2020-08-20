@@ -110,7 +110,7 @@ def page_search(pg):
     offset = (pg-1)*num_results
     res = requests.get(f"{query}&offset={offset}") 
     response = res.json()
-    cur_pg=pg+1 #not sure yet
+    cur_pg=pg+1 
     return render_template("recipe-results.html",resp=response, cur_pg=pg)
     
 
@@ -125,7 +125,14 @@ def show_recipe_info(id):
     similar = sim.json()
 
     return render_template("recipe-info.html",recipe=response, similar=similar)
+
+@app.route('/explore')
+def show_random_recipes():
+    res = requests.get(f"{API_BASE_URL}/recipes/random?&number={num_results}&apiKey={APIKEY}")
+
+    response=res.json()['recipes']
     
+    return render_template("explore-recipes.html",recipes=response)
  
 ###########################
 ### ### User Routes ### ###
@@ -196,7 +203,7 @@ def log_in_user():
         if user:
             log_in(user)
             flash(f"Welcome back {user.name}", 'success')
-            return redirect("/user/recipes")
+            return redirect("/explore")
 
         else:
             flash("Invalid credentials",'danger')

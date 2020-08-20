@@ -88,6 +88,8 @@ footer {
 .log-in-pg-btn:active,
 .log-in-pg-btn:focus {
   box-shadow: 0 5px 15px var(--p-dark);
+  background-color: var(--primary);
+  color: white;
 }
 
 /* ======================= Recipes */
@@ -217,6 +219,9 @@ ul.nav.navbar-nav li {
 }
 .card-deck > .card {
   border: 1px solid var(--primary);
+}
+.plus-btn {
+  font-size: larger;
 }
 
 /* ===================== User profile */
