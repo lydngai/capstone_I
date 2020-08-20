@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Explore Recipes</h1>
+<div class="container mb-5 recipe-cards">
+  <div class="row">
+    {% for item in recipes %}
+    <!-- cards -->
+    <div class="col-sm-6 col-md-4">
+      <div class="card">
+        <a href="/recipe/{{item.id}}">
+          <img class="card-img-top" src="{{item.image}}" alt="{{item.title}}" />
+        </a>
+        <div class="card-body">
+          <h5 class="card-title">{{item.title}}</h5>
+
+          <a href="/recipe/{{item.id}}" class="btn btn-sm m-1"
+            >Get more information</a
+          >
+          {% if g.user %}
+          <!--  -->
+          {% if item.id in g.user_recipes %}
+          <form method="GET" action="/unsave_recipe/{{item.id}}">
+            <button class="btn remove-recipe m-1">
+              Unsave recipe
+            </button>
+          </form>
+          {% else %}
+          <form method="GET" action="/save_to_recipebox/{{item.id}}">
+            <button class="btn btn-sm add-recipe m-1">
+              Save recipe
+            </button>
+          </form>
+          {% endif %} {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

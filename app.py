@@ -126,7 +126,7 @@ def show_recipe_info(id):
 
     return render_template("recipe-info.html",recipe=response, similar=similar)
     
-
+ 
 ###########################
 ### ### User Routes ### ###
 ###########################
@@ -140,7 +140,7 @@ def add_user_to_g():
 
     else:
         g.user = None
-        g.user_recipes= None
+        g.user_recipes= None 
 
 
 def log_in(user):
